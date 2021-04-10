@@ -4,7 +4,15 @@ import styled from "styled-components";
 
 const PostList = (props) => {
 
-    return ("PostList!!!!")
+    return (
+        
+        <div>
+            Git Log...! 
+        </div>
+        
+        
+        
+        )
 }
 
 export default PostList;
