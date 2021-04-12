@@ -10,6 +10,7 @@ const Header = () => {
             <Logo>
                 <AiFillGithub/> Git_log
             </Logo>
+            {/*변경 예정입니다 */}
             <HeaderBtns>
                 <Button width="50%" margin="10px 10px 10px 0" alt="회원가입" 
                 radius="8px" size="0.9vw"  color="white">회원가입</Button>
