@@ -29,9 +29,9 @@ const Image = (props) => {
 };
 
 Image.defaultProps = {
-  shape: "",
+  shape: "circle",
   src: "https://www.dailysecu.com/news/photo/201808/37687_30262_3215.jpg",
-  size: "",
+  size: 36,
 };
 
 const ImageDefault = styled.div`
@@ -43,8 +43,11 @@ const ImageDefault = styled.div`
 `;
 
 const AspectOutter = styled.div`
-  width: 100%;
-  min-width: 250px;
+  width: auto;
+  height: auto;
+  border-bottom: 1px solid #161616;
+  border-radius: 0;
+  overflow: hidden;
 `;
 
 const AspectInner = styled.div`

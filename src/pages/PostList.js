@@ -1,16 +1,18 @@
 import React from "react";
 import styled from "styled-components"; 
 
+import {useSelector, useDispatch} from "react-redux";
+
 import Post from "../components/PostList/Post"
 
 
 const PostList = (props) => {
 
+
     return (
         <React.Fragment>
             <Post/>
-            ㅈㅔ발되랏
-        </React.Fragment>    
+        </React.Fragment>
         )
 }
 
