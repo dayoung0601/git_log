@@ -9,6 +9,7 @@ const PostList = (props) => {
     return (
         <React.Fragment>
             <Post/>
+            ㅈㅔ발되랏
         </React.Fragment>    
         )
 }
