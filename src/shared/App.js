@@ -4,17 +4,25 @@ import styled from "styled-components";
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import Header from "../components/Header";
-import PostList from "../pages/PostList";
+import Signup from '../pages/Signup';
+import Login from '../pages/Login';
+
 import { history } from "../redux/configureStore";
+
 
 function App() {
   return (
     <React.Fragment>
-      <Background><Responsive>
+      <Background>
+    <Responsive>
       <Header/>
       <ConnectedRouter history={history}>
+        <Route path="/" exact component={Signup} />
+        <Route path="/login" component={Login} />
         <Route path="/" exact component={PostList} />
-      </ConnectedRouter></Responsive></Background>
+      </ConnectedRouter>
+    </Responsive>
+    </Background>
     </React.Fragment>
   );
 }
