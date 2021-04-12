@@ -1,17 +1,18 @@
 import React from "react";
 import styled from "styled-components"; 
 
+import {useSelector, useDispatch} from "react-redux";
+
+import Post from "../components/PostList/Post"
+
 
 const PostList = (props) => {
 
+
     return (
-        
-        <div>
-            Git Log...! 
-        </div>
-        
-        
-        
+        <React.Fragment>
+            <Post/>
+        </React.Fragment>
         )
 }
 

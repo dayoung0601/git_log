@@ -28,7 +28,7 @@ const size = {
 
     main_color: 'rgb(255, 82, 82)',
     main_white: '#ffffff',
-    main_black: '#343a40',
+    main_navy: '#24292e ',
     main_bg_color: '#f7f8f9',
     gray: '#adb5bd',
     post_bg: '#f1f3f5',
