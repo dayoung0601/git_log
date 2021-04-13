@@ -1,83 +1,80 @@
-// 안녕하세요 !
-// 현준님 짱!!!!!
-// 마지막 ~~~~~~~~~~
-
 import React from "react";
 import styled from "styled-components";
+import { Grid, Text } from "../../elements";
 
-import CommentItem from "./CommentItem";
+import CommentList from "./CommentList";
 import Count from "./Count";
-import { Grid, Input, Text } from "../../elements";
-import heart from "../../static/heart.svg";
-import comment from "../../static/comment.svg";
+
+import { useDispatch, useSelector } from 'react-redux';
 
 const Post = (props) => {
-  console.log(props.user_info.profile);
+  const dispatch  = useDispatch();
+
+
+
+  
 
   return (
     <React.Fragment>
-      <PostContainer>
-        <PostBody1 src={props.image_url}>
-            <img width="100%" height="auto" src={props.image_url}/>
-        </PostBody1>
+        <PostContainer>
+          <PostBody1 src={props.image_url}>
+            <img width="100%" height="auto" src={props.image_url} />
+          </PostBody1>
 
-        <PostBody2>
+          <PostBody2>
 
-          <Body1Writer>
-            <Grid flex>
-              <ProfileImg>
-                  <img width="100%" height="auto" src={props.user_info.profile}/>
-              </ProfileImg>
-              <Text bold>{props.user_info.nickname}</Text>
-            </Grid>
-          </Body1Writer>
+            <Body1Writer>
+              <Grid flex margin="0px">
+                <ProfileImg src={props.user_info.profile} />
+                <Text bold margin="0px">
+                  {props.user_info.nickname}
+                </Text>
+              </Grid>
+            </Body1Writer>
 
-          <Body2Contents>
-            <Text>{props.contents}</Text>
-            <Text size="8pt" color="grey">
-              {props.insert_dt}
-            </Text>
-          </Body2Contents>
-
-          <Body3CommentList>
-            <CommentItem />
-          </Body3CommentList>
-
-          <Body4Count>
-              <Icon src={heart} />
-              <Text blod margin="0px 5px 0px 5px">
-                {props.like_cnt}
+            <Body2Contents>
+              <Text margin="0px">{props.contents}</Text>
+              <Text size="8pt" color="grey" margin="1px">
+                {props.insert_dt}
               </Text>
-              <Icon src={comment} />
-              <Text blod margin="0px 5px 0px 5px">
-                {props.comment_cnt}
-              </Text>
-          </Body4Count>
+            </Body2Contents>
 
-          <Body5CommentWrite>
-            <CommentInput placeholder="댓글 달기" />
-            <CommentBtn>게시</CommentBtn>
-          </Body5CommentWrite>
-        </PostBody2>
-      </PostContainer>
+            <Body3CommentList>
+              <CommentList />
+            </Body3CommentList>
+
+            <Body4Count>
+              <Count />
+            </Body4Count>
+
+            <Body5CommentWrite>
+              <CommentInput placeholder="댓글 달기" />
+              <CommentBtn>게시</CommentBtn>
+            </Body5CommentWrite>
+
+          </PostBody2>
+        </PostContainer>
     </React.Fragment>
   );
 };
 
-Post.defaultProps = {
-  id: 0,
-  user_info: {
-    nickname: "_nickname",
-    profile:
-      "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
-  },
-  image_url:
-    "https://media.vlpt.us/images/huurray/post/f827a6c4-7dc5-4239-bd7e-c19352ad8044/javascript.gif",
-  contents: "개발자들의 커뮤니티, 깃로그",
-  comment_cnt: 8,
-  like_cnt: 20,
-  insert_dt: "2021-04-12 10:00:00",
-};
+Post.defaultProps = 
+  {
+    id: 0,
+    user_info: {
+      nickname: "_nickname",
+      profile:
+        "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
+    },
+    image_url:
+      "https://media.vlpt.us/images/huurray/post/f827a6c4-7dc5-4239-bd7e-c19352ad8044/javascript.gif",
+    contents: "개발자들의 커뮤니티, 깃로그, 첫번째 게시물",
+    comment_cnt: 8,
+    like_cnt: 20,
+    insert_dt: "2021-04-12",
+  };
+
+
 
 const PostContainer = styled.div`
   width: 100%;
@@ -85,7 +82,7 @@ const PostContainer = styled.div`
   border: 2px solid #eee;
   box-sizing: border-box;
   display: flex;
-  position:relative;
+  position: relative;
   top: 50px;
 `;
 
@@ -94,10 +91,10 @@ const PostBody1 = styled.div`
   height: auto;
   aspect-ratio: 1/1;
   object-fit: cover;
-  object-position: 50% 50% ;
+  object-position: 50% 50%;
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  margin:auto;
+  margin: auto;
 `;
 
 const PostBody2 = styled.div`
@@ -107,7 +104,7 @@ const PostBody2 = styled.div`
 const Body1Writer = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 8%;
+  height: 10%;
   padding-left: 10px;
 `;
 
@@ -123,9 +120,9 @@ const Body2Contents = styled.div`
 const Body3CommentList = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 53%;
+  height: 51%;
   overflow: hidden;
-  padding: 10px;
+  padding-left: 10px;
 `;
 
 const Body4Count = styled.div`
@@ -135,24 +132,24 @@ const Body4Count = styled.div`
   border-top: 2px solid #eee;
   align-items: center;
   display: flex;
-  padding: 10px;
+  padding: 13px 10px 9px 10px;
 `;
 
 const Body5CommentWrite = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 7%;
-  display:flex;
+  display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 9px 10px 12px 10px;
 `;
 
-const ProfileImg = styled.div`
-  width: 8%;
+const ProfileImg = styled.img`
+  width: 9%;
   aspect-ratio: 1/1;
-  border-radius:100%;
+  border-radius: 100px;
   background-image: url("${(props) => props.src}");
-  margin-right: 5px;
+  margin-right: 0px;
 `;
 
 const Icon = styled.img`
@@ -163,7 +160,7 @@ const Icon = styled.img`
 const CommentInput = styled.input`
   outline: none;
   border: none;
-  width:85%;
+  width: 85%;
 `;
 
 const CommentBtn = styled.button`
@@ -172,7 +169,5 @@ const CommentBtn = styled.button`
   border: none;
   color: grey;
 `;
-
-
 
 export default Post;

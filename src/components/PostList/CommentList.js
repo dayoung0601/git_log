@@ -2,25 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import { Grid, Image, Text, Input } from "../../elements";
 
-const CommentItem = (props) => {
+const CommentList = (props) => {
   return (
     <React.Fragment>
       <div flex-direction="column">
         <Grid flex>
-          <ProfileImg>
-            <img width="100%" height="auto" src={props.user_info.profile} />
-          </ProfileImg>
+          <ProfileImg src={props.user_info.profile} />
           <Text bold>{props.user_info.nickname}</Text>
-          <br></br>
-          <Text>{props.comment}</Text>
         </Grid>
-        
+        <Grid>
+        <Text margin="0px">{props.comment}</Text>
+        </Grid>
       </div>
     </React.Fragment>
   );
 };
 
-CommentItem.defaultProps = {
+CommentList.defaultProps = {
   user_info: {
     nickname: "_nickname",
     profile:
@@ -29,11 +27,13 @@ CommentItem.defaultProps = {
   comment: " 댓글입니다 :)",
 };
 
-const ProfileImg = styled.div`
-  width: 8%;
+const ProfileImg = styled.img`
+  width: 9%;
   aspect-ratio: 1/1;
-  border-radius: 50%;
+  border-radius:100px;
+  background-image: url("${(props) => props.src}");
   margin-right: 5px;
 `;
 
-export default CommentItem;
+
+export default CommentList;
