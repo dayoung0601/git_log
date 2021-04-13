@@ -20,7 +20,7 @@ function App() {
       <ConnectedRouter history={history}>
         <Route path="/signup" exact component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/" exact component={PostList} />
+        <Route path="/postlist" exact component={PostList} />
       </ConnectedRouter>
     </Responsive>
     </Background>

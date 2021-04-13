@@ -6,7 +6,7 @@ import {Grid, Text} from './index';
 
 const Input = (props) => {
     
-    const {label, width, placeholder, _onChange, type, multiLine, value, is_submit, onSubmit, margin} = props;
+    const {label, padding, width, placeholder, _onChange, _onClick, type, multiLine, value, is_submit, onSubmit, margin} = props;
     
     if (multiLine) {
         return (
@@ -40,7 +40,7 @@ const Input = (props) => {
                     }
                 }} />
             ) : (
-                <ElInput margin={margin} width={width} type={type} placeholder={placeholder} onChange={_onChange} />
+                <ElInput padding={padding} margin={margin} width={width} type={type} placeholder={placeholder} onChange={_onChange} onClick={_onClick} />
             )}
             </Grid>
         </React.Fragment>
@@ -56,12 +56,14 @@ Input.defaultProps = {
     is_submit:false,
     width:false,
     margin:false,
+    padding:"12px",
     onSubmit: () => {},
     _onChange:() => {},
+    _onClick:() => {},
 };
 
 const ElTextarea = styled.textarea`
-    border: 1px solid #212121;
+    border: 1px solid #f1e05a; //#212121
     width: ${(props) => props.width};
     padding: 12px 4px;
     box-sizing: border-box;
@@ -72,7 +74,8 @@ const ElInput = styled.input`
     border-radius: 8px;
     width: ${(props) => props.width};
     margin: ${(props) => props.margin};
-    padding: 12px 4px;
+    padding: ${(props) => props.padding};
+    /* ${(props) => (props.padding? `padding:${props.margin}`: "12px 4px")};  */
     box-sizing: border-box;
 `;
 

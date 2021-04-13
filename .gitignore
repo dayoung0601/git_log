@@ -1,4 +1,4 @@
 
 git_log/node_modules
 node_modules
-git_log/node_modules node_modules
+git_log/src/redux/modules/user
