@@ -6,6 +6,7 @@ import { ConnectedRouter } from "connected-react-router";
 import Header from "../components/Header";
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
+import PostList from '../pages/PostList';
 
 import { history } from "../redux/configureStore";
 
@@ -17,9 +18,9 @@ function App() {
     <Responsive>
       <Header/>
       <ConnectedRouter history={history}>
-        <Route path="/" exact component={Signup} />
+        <Route path="/signup" exact component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/" exact component={PostList} />
+        <Route path="/postlist" exact component={PostList} />
       </ConnectedRouter>
     </Responsive>
     </Background>

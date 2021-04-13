@@ -46,6 +46,13 @@ const ElButton = styled.button`
     border: ${(props) => props.border};
     border-radius: ${(props) => props.radius};
     ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
+    :hover{
+        color:#24292e;
+        background-color:#f1e05a;
+        cursor: pointer;
+        outline: none;
+    }
+    
 `;
 
 export default Button;
