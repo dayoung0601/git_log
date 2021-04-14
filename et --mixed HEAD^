@@ -1,0 +1,241 @@
+[33mcommit 515406d33534f6387edcab0ac683fded8d6365d0[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Thu Apr 15 01:37:47 2021 +0900
+
+    gitignore
+
+[33mcommit 6d52282d65cd33258b5ea1a9fbe222e7cb468149[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Wed Apr 14 23:08:17 2021 +0900
+
+    add API: signupAPI, loginAPI
+
+[33mcommit d1cf0b3cb71ab1205a1ff08ef46e79d63155f2c7[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Wed Apr 14 12:19:52 2021 +0900
+
+    backup
+
+[33mcommit f1634b6f85d8b4c09804be94210c758eaa5fd480[m
+Merge: 0ca3ea8f d31b90ac
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Tue Apr 13 20:17:01 2021 +0900
+
+    Merge branch 'main' into main
+
+[33mcommit 0ca3ea8f105f9f39f87a150305e14c73efcb0de9[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Tue Apr 13 20:12:05 2021 +0900
+
+    update: signup, login
+
+[33mcommit d31b90ac1acac53dae4eb3e0374fba850e1a02d6[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Tue Apr 13 20:08:33 2021 +0900
+
+    postList 리덕스 연결 중
+
+[33mcommit 8fcedc0f9b3c636b26139dc35f5a222d805e467e[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Tue Apr 13 00:06:09 2021 +0900
+
+    마지막!!
+
+[33mcommit 56fcf8834218650cdfb8da62306c6a55ecda44b6[m
+Merge: 6fb57267 f603162a
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Tue Apr 13 00:02:26 2021 +0900
+
+    Merge pull request #3 from g0garden/main
+    
+    commit test
+
+[33mcommit f603162a07cb97c683bbeb3ecab4608bacec0852[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Mon Apr 12 23:59:51 2021 +0900
+
+    committest
+
+[33mcommit 6fb572670fcf571f5e42831ceef9ef36c173dd55[m
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Mon Apr 12 23:58:37 2021 +0900
+
+    Update README.md
+
+[33mcommit b386e302c08ce4de75b90f59c86c86c80f5e5c18[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 23:51:32 2021 +0900
+
+    현준님짱
+
+[33mcommit 1aaba6d6e6e01565a3f7a4bd5851db0cc97277a3[m
+Merge: 78ce034b 41b164f4
+Author: JeongWon Go <58612140+g0garden@users.noreply.github.com>
+Date:   Mon Apr 12 23:47:36 2021 +0900
+
+    Merge pull request #1 from dayoung0601/main
+    
+    merge test
+
+[33mcommit 41b164f49c8f29d3330f7b63118ca67af24aaaab[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 23:30:41 2021 +0900
+
+    test
+
+[33mcommit d14d270c702e1ba2e33a5396181df49256ede38c[m
+Merge: 2c379c36 78ce034b
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Mon Apr 12 23:21:18 2021 +0900
+
+    Merge pull request #2 from g0garden/main
+    
+    Login, Register view
+
+[33mcommit 78ce034bbec8c5a6fa01c5a2c6d8b10b6f15dc9c[m
+Merge: 738e5413 2c379c36
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Mon Apr 12 23:21:05 2021 +0900
+
+    Merge branch 'main' into main
+
+[33mcommit 738e541383cb20238818242f11613f7e29e6ca72[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Mon Apr 12 22:44:31 2021 +0900
+
+    Login, Register view
+
+[33mcommit 2c379c364eebdc0c272feb3390ccc0753cf9297c[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 22:37:33 2021 +0900
+
+    게시글 컴포넌트
+
+[33mcommit ba3d318cf7c0e4d133523209c9a8ba43b0ec0776[m
+Merge: 8feb8c8e 1fb3511b
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 11:11:50 2021 +0900
+
+    Merge branch 'main' of https://github.com/dayoung0601/git_log
+    # Please enter a commit message to explain why this merge is necessary,
+    # especially if it merges an updated upstream into a topic branch.
+    #
+    # Lines starting with '#' will be ignored, and an empty message aborts
+    # the commit.
+
+[33mcommit 8feb8c8e7f29d60ac156559c51fb19ad5a69e1d4[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 11:11:18 2021 +0900
+
+    되랏
+
+[33mcommit 1fb3511b993ccf80083c0971c7af9d04ed791197[m
+Merge: 46484151 cb7621cf
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Mon Apr 12 11:09:36 2021 +0900
+
+    Merge pull request #1 from g0garden/main
+    
+    test
+
+[33mcommit 46484151373c333bd130de105dd78f379b7453ad[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 11:04:06 2021 +0900
+
+    postList
+
+[33mcommit cb7621cfd53cd44fe072029f865c26ef10a35b88[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Mon Apr 12 10:59:39 2021 +0900
+
+    test
+
+[33mcommit 08169f18f428458a60358878bc3ee3c16f9d60ce[m
+Merge: a9af5df1 5b3c9364
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 10:46:49 2021 +0900
+
+    Merge branch 'main' of https://github.com/dayoung0601/git_log into main
+    
+    # Conflicts:
+    #       src/pages/PostList.js
+
+[33mcommit a9af5df1cad29715f3a076e09f54ce35b662c5aa[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Mon Apr 12 10:45:58 2021 +0900
+
+    elemet(grid,image,input,text)추가
+
+[33mcommit 5b3c93645da298802cf4e206988b8604b0b60ef2[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Mon Apr 12 10:13:27 2021 +0900
+
+    add: pages
+
+[33mcommit 9ead55ba3ad3b632eef236986cc1a9a351f183ed[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Sat Apr 10 18:22:53 2021 +0900
+
+    commit test
+
+[33mcommit 03f278a95b31f24f52c745ad7a639d9da5f57ec1[m
+Merge: 26cf434a 2f3b6847
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Sat Apr 10 14:49:52 2021 +0900
+
+    준비
+
+[33mcommit 26cf434a5df835cc3df4e0565c578a246dfe1fb7[m
+Merge: dbf9ff31 6aac61fb
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Sat Apr 10 14:30:24 2021 +0900
+
+    준비!!
+
+[33mcommit 2f3b684732d9eac6777ff99989ae8a8232c7473d[m
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Sat Apr 10 13:50:15 2021 +0900
+
+    Delete frontend directory
+
+[33mcommit 735e54a078fdc3c6d94c9bb6be2375b981bcc22f[m
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Sat Apr 10 13:49:05 2021 +0900
+
+    Delete README.md
+
+[33mcommit 333b554e9a82b19b67e6a01d1adbeac8b5ae039f[m
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Sat Apr 10 13:48:42 2021 +0900
+
+    Delete example.png
+
+[33mcommit 6aac61fbb79e3f3724dbd885db04d586e388aa57[m
+Author: g0garden <58612140+g0garden@users.noreply.github.com>
+Date:   Fri Apr 9 15:30:54 2021 +0900
+
+    test
+
+[33mcommit dbf9ff31eefa87e29ae85776139427558425dd6f[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Fri Apr 9 15:29:47 2021 +0900
+
+    확인
+
+[33mcommit 6287e4a7295ef52adc106b0f730eb8e9dd9436e9[m
+Author: dayoung0601 <dayoung0601@hanmail.net>
+Date:   Fri Apr 9 14:32:20 2021 +0900
+
+    예시이미지
+
+[33mcommit cdf82844100e6c447b38548903a999325bcdabf3[m
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Fri Apr 9 14:23:42 2021 +0900
+
+    Update README.md
+
+[33mcommit e0f6e191758eba051fd1a26e1a523fefe0e3faf4[m
+Author: dayoung0601 <75595043+dayoung0601@users.noreply.github.com>
+Date:   Fri Apr 9 14:17:13 2021 +0900
+
+    Initial commit
