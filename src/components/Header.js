@@ -11,11 +11,11 @@ const Header = () => {
                 <AiFillGithub/> Git_log
             </Logo>
             {/*변경 예정입니다 */}
-            <HeaderBtns>
+            <HeaderBtns className="login">
                 <Button width="50%" margin="10px 10px 10px 0" alt="회원가입" 
-                radius="8px" size="0.9vw"  color="white">회원가입</Button>
+                radius="8px" size="0.9vw"  color="white">SignUp</Button>
                 <Button width="50%" margin="10px 0 10px 10px" alt="로그인" 
-                radius="8px" size="0.9vw" bg="#ffffff" color="#24292e">로그인</Button>
+                radius="8px" size="0.9vw" bg="#ffffff" color="#24292e">Login</Button>
             </HeaderBtns>
         </Grid>
         

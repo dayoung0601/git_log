@@ -1,20 +1,141 @@
 import React from 'react';
 import styled from 'styled-components';
+import signup from '../scss/signup.css';
 import {AiFillGithub} from 'react-icons/ai';
 
 import {Grid, Text, Image, Input, Button } from '../elements';
+import {nickNameCheck, pwMatch, pwContinuous, emailCheck} from '../shared/common';
+
+import { history } from "../redux/configureStore";
 
 const Signup = (props) => {
+
+const [nickname, setNickname] = React.useState('');
+const [nickNameDup, setNicknameDup] = React.useState(false);
+const [pw, setPw] = React.useState('');
+const [pwCheck, setPwCheck] = React.useState('');
+const [email, setEmail] = React.useState('');
+const [emailDup, setEmailDup] = React.useState(false);
+const [github, setGithub] = React.useState('');
+
+//해당 조건 충족 여부에 따라 info 알려주기
+const changeNickname = (e) => {
+
+    setNickname(e.target.value);
+    const nickNameInfo = document.querySelector('ul.checkNickname li:nth-child(1)');
+
+    if(!nickNameCheck(e.target.value)){
+        nickNameInfo.classList.add('error');
+        nickNameInfo.classList.remove('ok');
+    } else {
+        nickNameInfo.classList.add('ok');
+        nickNameInfo.classList.remove('error');
+    }
+}
+
+const changePw = (e) => {
+
+    const targetPw = e.target.value;
+    setPw(targetPw);
+    const pwInfo_len = document.querySelector('ul.checkPw li:nth-child(1)');
+    const pwInfo_match = document.querySelector('ul.checkPw li:nth-child(2)');
+    const pwInfo_continuous = document.querySelector('ul.checkPw li:nth-child(3)');
+
+    if (targetPw.length < 10) {
+        pwInfo_len.classList.add('error');
+        pwInfo_len.classList.remove('ok');
+    } else {
+        pwInfo_len.classList.remove('error');
+        pwInfo_len.classList.add('ok');
+    }
+
+    if (!pwMatch(targetPw)) {
+        pwInfo_match.classList.add('error');
+        pwInfo_match.classList.remove('ok');
+    } else {
+        pwInfo_match.classList.add('ok');
+        pwInfo_match.classList.remove('error');
+    }
+
+    if (pwContinuous(targetPw)) {
+        pwInfo_continuous.classList.add('error');
+        pwInfo_continuous.classList.remove('ok');
+    } else {
+        pwInfo_continuous.classList.add('ok');
+        pwInfo_continuous.classList.remove('error');
+        }
+    }
+
+    //비밀번호 확인하기
+    //비밀번호와 일치하면 info 색깔 초록색으로 바꿔주기
+    const changePwMatch = (e) => {
+        const checkPw = e.target.value;
+        setPwCheck(checkPw);
+        const RePwInfo = document.querySelector('ul.ReCheckPw li:nth-child(1)');
+    
+        if (pw === checkPw) {
+            RePwInfo.classList.add('ok');
+            RePwInfo.classList.remove('error');
+        } else {
+            RePwInfo.classList.add('error');
+            RePwInfo.classList.remove('ok');
+        }
+    }
+
+    //github 아이디 받기 
+    // const changeGithub  = (e) => {
+    //     const checkGithub = e.target.value;
+    //     setGithub(checkGithub);
+    //     const GithubInfo = document.querySelector('ul.checkGithub li:nth-child(1)');}
+
+
+
+// signup버튼 눌렀을때 빈칸체크하기
+const signUp = () => {
+    
+    if(nickname === '') {
+        alert('닉네임을 입력해주세요!')
+        return false;
+    }
+
+    if(email === '') {
+        alert('이메일을 입력해주세요!')
+        return false;
+    }
+
+    if (nickNameDup === false) {
+        alert('닉네임 중복확인을 해주세요!');
+        return false;
+    }
+
+        if (emailDup === false) {
+        alert('이메일 중복확인을 해주세요!');
+        return false;
+    }
+
+    if(!emailCheck(email)) {
+        alert('이메일 형식을 지켜주세요!');
+        return false;
+    }
+
+    if(github === '') {
+        alert('깃허브 아이디를 입력해주세요!')
+        return false;
+    }
+
+
+}
+
+
 
     return (
         <React.Fragment>
             <SignupWrap>
             <SignupHeader>
-                <Grid is_flex>
-                    <Text size="2.1vw" bold>Create Account</Text>
-                </Grid>
-                <Grid is_flex>
-                    <Text size="0.8vw" bold="400">🎈Use your email for registration</Text>
+                <Grid>
+                    {/* <Title>🎈Join Git_log</Title> */}
+                    <Title>Create your Account🎈</Title>
+                    {/* <subTitle>Join Git_log</subTitle> */}
                 </Grid>
                 {/* <Grid is_flex>
                     <Button>
@@ -28,51 +149,124 @@ const Signup = (props) => {
             <InputWrap>
                 <Grid is_flex width="100%" margin="5px 0">
                 <Input 
+                        placeholder="Email"
                         type="text" 
                         width="85%" 
-                        margin="5px 0px 5px 35px" 
-                        placeholder="Email"/>
-                    <Button  width="20%" margin="0px 30px 0px 0px" padding="10px"
-                        size="0.5vw" color="white">중복확인</Button>
+                        margin="5px 0px 5px 35px"
+                        padding="12px 4px" 
+                        _onChange={(e) => {
+                            setEmail(e.target.value)}}/>
+                    <Button  
+                        width="20%" 
+                        margin="0px 30px 0px 0px" 
+                        padding="10px"
+                        size="0.5vw" 
+                        color="white"
+                        _onClick={()=>{  
+                            if(!emailCheck(email)) {
+                                alert('이메일 형식을 지켜주세요!');
+                                return false;
+                            }
+                            //checkEmailAPI(email);
+                        }}>중복확인</Button>
                 </Grid>
+                
                 <Grid is_flex width="100%" margin="5px 0">
                 <Input 
+                        placeholder="Nickname"
                         type="text" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 
-                        placeholder="Nickname"/>
-                    <Button  width="20%" margin="0px 30px 0px 0px" padding="10px" 
-                    size="0.5vw" color="white">중복확인</Button>
+                        _onClick={() => {
+                            // console.log("ㅇㅇ");
+                            document.querySelector('.checkNickname').style.display = 'block';
+                        }}
+                        _onChange={(e) => {
+                            // console.log(e.target.value);
+                            changeNickname(e);
+                        }}
+                        />
+                    <Button  
+                        width="20%" 
+                        margin="0px 30px 0px 0px" padding="10px" 
+                        size="0.5vw" color="white"
+                        _onClick={() => {
+                            if(!nickNameCheck(nickname)){
+                                alert('닉네임은 6자 이상의 영문 혹은 영문과 숫자 조합만 가능합니다.');
+                                return false;
+                            }
+                            //checkNicknameAPI(nickname);
+                        }} >중복확인</Button>
                 </Grid>
+                <InfoUl className="checkNickname">
+                    <li>6자 이상의 영문 혹은 영문과 숫자를 조합 </li>
+                    <li>닉네임 중복확인</li>
+                </InfoUl> 
                 <Grid is_flex margin="5px auto">
-                <Input 
+                <Input  
+                        placeholder="PassWord"
                         type="text" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 
-                        placeholder="PassWord"/>
+                        _onClick={() => {
+                            document.querySelector('.checkPw').style.display = 'block';
+                        }}
+                        _onChange={(e) => {
+                            changePw(e)
+                        }}/>
                 </Grid>
+                <InfoUl className="checkPw">
+                    <li>10글자 이상 입력</li>
+                    <li>영문/숫자/특수문자(공백 제외)만 허용,2개 이상의 조합</li>
+                    <li>동일한 숫자 3개 이상 연속 사용 불가</li>
+                </InfoUl> 
                 <Grid is_flex margin="5px 0">
                 <Input 
+                        placeholder="PassWord check"
                         type="text" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 
-                        placeholder="PassWord check"/>
+                        _onClick={() => {
+                            document.querySelector('.reCheckPw').style.display = 'block';
+                        }}
+                        _onChange={(e) => {
+                            changePwMatch(e)
+                        }}
+                        />
                 </Grid>
+                <InfoUl className="reCheckPw">
+                    <li>동일한 비밀번호를 입력</li>
+                </InfoUl>
                 <Grid is_flexmargin="5px 0">
                 <Input 
+                        placeholder="Github address"
                         type="text" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 
-                        padding="0 0 0 4px"
-                        placeholder="Github address"/>
-                </Grid> 
+                        _onClick={() =>{ 
+                            document.querySelector('.checkGithub').style.display = 'block';
+                        }}
+                        />
+                </Grid>
+                {/*유효성 체크API */}
+                <InfoUl className="checkGithub">
+                    <li>예) https://github.com/<b>본인아이디</b></li>
+                    <li>예)에서 본인아이디(영문,숫자,-)에 해당하는 부분만 입력</li>
+                </InfoUl> 
                 </InputWrap>
             </SignupBody>
             <SignupBtns>
-                <Button width="40%" margin="10px 0" alt="회원가입" 
-                radius="8px" size="1.2vw"  color="white">Sign Up</Button>
+                <Button 
+                    width="40%" margin="10px 0" alt="회원가입" 
+                    radius="8px" size="1.2vw"  color="white" 
+                    _onClick={signUp}
+                    >Sign Up</Button>
                 <Button width="40%" margin="10px 0" alt="로그인" 
-                radius="8px" size="1.2vw" bg="#ffffff" color="#24292e">Sign In</Button>
+                radius="8px" size="1.2vw" bg="#ffffff" color="#24292e"
+                _onClick={() => {
+                    history.push('/login');
+                }}
+                >Sign In</Button>
             </SignupBtns>
         </SignupWrap>
         
@@ -83,16 +277,16 @@ const Signup = (props) => {
 };
 
 const SignupWrap = styled.div`
-    width: 25%;
-    margin:-8px auto 15px auto;
-    /* margin: 8% auto; */
+    width: 50%;
+    /* margin:-8px auto 15px auto; */
+    margin: 10% auto;
     padding: 8px;
     border: 1px solid #24292e ;
     border-radius: 8px;
     /* background-color:#f6f8fa; */
     
     @media (max-width: 767px){
-        
+
     }
 
 `;
@@ -102,6 +296,22 @@ const SignupHeader = styled.div`
 
 `;
 
+const Title = styled.div`
+    margin: 50px auto 50px auto;
+    font-size: 2.2vw;
+    font-weight:600;
+    text-align: center;
+
+`;
+
+// const subTitle = styled.div`
+//     margin: 5px auto 10px auto;
+//     font-size: 1.2vw;
+//     color: lightgray;
+//     text-align: center;
+
+// `;
+
 const SignupBody = styled.div`
 
 `;
@@ -110,13 +320,22 @@ const SignupBtns = styled.div`
     display: flex;
     justify-content: space-evenly;
     width:100%;
-    margin: 10px 0px;
+    margin: 10px 0px 20px 0px;
 
 `;
 
 const InputWrap = styled.div`
     padding: 8px;
 
+`;
+
+const InfoUl = styled.ul`
+    width:100%;
+    font-size: 0.7vw;
+    color:#666666;
+    position: relative;
+    left:20px;
+    font-weight: 400
 `;
 
 
