@@ -18,7 +18,7 @@ function App() {
     <Responsive>
       <Header/>
       <ConnectedRouter history={history}>
-        <Route path="/signup" exact component={Signup} />
+        <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/postlist" exact component={PostList} />
       </ConnectedRouter>

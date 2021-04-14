@@ -55,7 +55,7 @@ const initialPost = {
     },
   ]
 };
- 
+
 
 // actions
 const SET_POST = "SET_POST";

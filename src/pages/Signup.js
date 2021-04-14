@@ -82,7 +82,7 @@ const changePw = (e) => {
         }
     }
 
-    //github 아이디 받기 
+    //github 주소 url 받기 
     // const changeGithub  = (e) => {
     //     const checkGithub = e.target.value;
     //     setGithub(checkGithub);
@@ -93,26 +93,28 @@ const changePw = (e) => {
 // signup버튼 눌렀을때 빈칸체크하기
 const signUp = () => {
     
+    if(email === '') {
+        alert('이메일을 입력해주세요!')
+        return false;
+    }
+    
     if(nickname === '') {
         alert('닉네임을 입력해주세요!')
         return false;
     }
 
-    if(email === '') {
-        alert('이메일을 입력해주세요!')
+    if (emailDup === false) {
+        alert('이메일 중복확인을 해주세요!');
         return false;
     }
+
 
     if (nickNameDup === false) {
         alert('닉네임 중복확인을 해주세요!');
         return false;
     }
 
-        if (emailDup === false) {
-        alert('이메일 중복확인을 해주세요!');
-        return false;
-    }
-
+    
     if(!emailCheck(email)) {
         alert('이메일 형식을 지켜주세요!');
         return false;
@@ -123,7 +125,13 @@ const signUp = () => {
         return false;
     }
 
+    //깃허브 형식 체크 -> 유효한 url인지
+    // if(!githubCheck(github)) {
+    //     alert('깃허브 주소를 다시 확인해주세요!');
+    //     return false;
+    // }
 
+  //dispatch(actionCreators.signupAPI(id,pw...));
 }
 
 
