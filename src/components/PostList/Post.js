@@ -5,14 +5,17 @@ import { Grid, Text } from "../../elements";
 import CommentList from "./CommentList";
 import Count from "./Count";
 
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators as postActions } from '../../redux/modules/post';
+
 
 const Post = (props) => {
   const dispatch  = useDispatch();
 
-
-
-  
+  useEffect(() => {
+    dispatch(postActions.fetchPost());
+  }, [])
 
   return (
     <React.Fragment>
@@ -60,18 +63,18 @@ const Post = (props) => {
 
 Post.defaultProps = 
   {
-    id: 0,
+    post_id: 0,
     user_info: {
       nickname: "_nickname",
       profile:
         "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
     },
     image_url:
-      "https://media.vlpt.us/images/huurray/post/f827a6c4-7dc5-4239-bd7e-c19352ad8044/javascript.gif",
-    contents: "개발자들의 커뮤니티, 깃로그, 첫번째 게시물",
+      "http://image.dongascience.com/Photo/2018/12/2d5efe44bdd02f3e2ec4e99189d89d18.jpg",
+    contents: "개발자 커뮤니티, 깃로그",
     comment_cnt: 8,
     like_cnt: 20,
-    insert_dt: "2021-04-12",
+    insert_dt: "2021-04-12 00:00:00",
   };
 
 

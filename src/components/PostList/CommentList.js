@@ -24,7 +24,7 @@ CommentList.defaultProps = {
     profile:
       "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
   },
-  comment: " 댓글입니다 :)",
+  comment: "댓글입니다 :)",
 };
 
 const ProfileImg = styled.img`

@@ -1,84 +1,76 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
-import moment from 'moment';
+import moment from "moment";
 
-// axios.default.baseURL ='';
+// axios.default.baseURL = "http://13.125.167.83";
 
 const initialState = {
-  list:[],
-  detailPost:[],
+  list: [],
+  detailPost: [],
   // paging:{ start: null, next: null, size: 10 },
   // is_loading: false
 };
-
-const initialPost = {
-  list: [
-    {id: 0,
-      user_info: {
-        nickname: "nickname",
-        profile:
-          "https://www.zdnet.com/a/hub/i/r/2018/10/18/580b4d43-4060-4d90-be23-1f97ef795e4e/resize/1200x900/757c6793f448336b1a2c73a5d46fb971/github-logo.png",
-      },
-      image_url:
-        "https://www.zdnet.com/a/hub/i/r/2018/10/18/580b4d43-4060-4d90-be23-1f97ef795e4e/resize/1200x900/757c6793f448336b1a2c73a5d46fb971/github-logo.png",
-      contents: "initialPost 두번째 게시물",
-      comment_cnt: 10,
-      like_cnt: 5,
-      insert_dt: "2021-04-13",
-    },
-    {id: 1,
-      user_info: {
-        nickname: "nickname",
-        profile:
-          "https://www.zdnet.com/a/hub/i/r/2018/10/18/580b4d43-4060-4d90-be23-1f97ef795e4e/resize/1200x900/757c6793f448336b1a2c73a5d46fb971/github-logo.png",
-      },
-      image_url:
-        "https://www.zdnet.com/a/hub/i/r/2018/10/18/580b4d43-4060-4d90-be23-1f97ef795e4e/resize/1200x900/757c6793f448336b1a2c73a5d46fb971/github-logo.png",
-      contents: "initialPost 세번째 게시물",
-      comment_cnt: 5,
-      like_cnt: 5,
-      insert_dt: "2021-04-13",
-    },
-    {id: 2,
-      user_info: {
-        nickname: "nickname",
-        profile:
-          "https://www.zdnet.com/a/hub/i/r/2018/10/18/580b4d43-4060-4d90-be23-1f97ef795e4e/resize/1200x900/757c6793f448336b1a2c73a5d46fb971/github-logo.png",
-      },
-      image_url:
-        "https://www.zdnet.com/a/hub/i/r/2018/10/18/580b4d43-4060-4d90-be23-1f97ef795e4e/resize/1200x900/757c6793f448336b1a2c73a5d46fb971/github-logo.png",
-      contents: "initialPost 첫번째 게시물",
-      comment_cnt: 0,
-      like_cnt: 5,
-      insert_dt: "2021-04-13",
-    },
-  ]
-};
- 
 
 // actions
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 
 // actionCreators: createAction
-const setPost = createAction(SET_POST, (post)=> ({ post }));
-const addPost = createAction(ADD_POST, (post)=> ({ post }));
+const setPost = createAction(SET_POST, (post) => ({ post }));
+const addPost = createAction(ADD_POST, (post) => ({ post }));
 
-// 유저 스토리 페이지
+// 메인 페이지: 게시글 전체목록 조회
+const fetchPost = (postId) => {
+  return function (dispatch, getState, { history }) {
+    const API = "http://13.125.167.83/api/posts?page=0&size=10";
+    axios.get(API, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // data: JSON.stringify({}),
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res);
+      // dispatch(setPost(res.data));
+    }).catch((err) => {
+      console.error(err);
+    });
+  };
+};
+
+// const fetchPost = () => {
+//   return function (dispatch, getState, { history }) {
+//     const API = "http://13.125.167.83/api/posts?page=0&size=10";
+//     fetch(API, {
+//       method: 'GET',
+//       headers: {
+//         'content-type': 'application/json'
+//       },
+//       body: JSON.stringify({})
+//     })
+//       .then((response) => response.json())
+//       .then((result) => {
+//       console.log(result);
+//       });
+//   };
+// };
+
+// 스토리 페이지
 const fetchPostByUser = (userId) => {
-  return function (dispatch, getState, {history}) {
+  return function (dispatch, getState, { history }) {
     axios.get(`/api/post/${userId}`).then((res) => {
       dispatch(setPost(res.data));
-    })
-  }
-}
+    });
+  };
+};
 
 const createPost = (post) => {
   return function (dispatch, getState, { history }) {
-    console.log('createPost', post);
+    console.log("createPost", post);
     axios.post(`/api/post`, post).then((res) => {
-      history.push('/');
+      history.push("/");
     });
   };
 };
@@ -86,7 +78,7 @@ const createPost = (post) => {
 const deletePost = (postId) => {
   return function (dispatch, getState, { history }) {
     axios.delete(`/api/post/${postId}`).then((res) => {
-      history.push('/');
+      history.push("/");
     });
   };
 };
@@ -94,33 +86,31 @@ const deletePost = (postId) => {
 const updatePost = (postId, post) => {
   return function (dispatch, getState, { history }) {
     axios.put(`/api/post/${postId}`, post).then((res) => {
-      history.push('/');
+      history.push("/");
     });
   };
 };
-
-
 
 // reducer: handleActions
 export default handleActions(
   {
     [ADD_POST]: (state, action) =>
-    produce(state, (draft) => {
-      draft.list.unshift(action.payload.post);
-    }),
+      produce(state, (draft) => {
+        draft.list.unshift(action.payload.post);
+      }),
     [SET_POST]: (state, action) =>
-    produce (state, (draft) =>{
-      draft.detailPost = action.payload.post;
-    })
+      produce(state, (draft) => {
+        draft.detailPost = action.payload.post;
+      }),
   },
   initialState
 );
-
 
 // actionCreator export
 const actionCreators = {
   addPost,
   fetchPostByUser,
+  fetchPost,
   createPost,
   deletePost,
   updatePost,
