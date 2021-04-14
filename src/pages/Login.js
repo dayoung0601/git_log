@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Login = () => {
     const dispatch = useDispatch();
+    
     //input에서 받아오는 입력값
     const [nickname, setNickname] = React.useState('');
     const [pw, setPw] = React.useState('');
@@ -24,9 +25,11 @@ const Login = () => {
             return
         }
         
-        console.log(email, pw);
+        console.log(nickname, pw);
         //dispatch(actionCreators.loginCheck());
-        //dispatch(actionCreators.loginAPI(email,pw));
+        dispatch(actionCreators.loginAPI(nickname,pw));
+        history.push('/');
+
     }
 
 
@@ -41,11 +44,11 @@ const Login = () => {
             <SignupBody>
             <Grid is_flex width="100%" margin="5px 0">
                 <Input 
+                        placeholder="Nickname"
                         type="text" 
                         width="85%" 
                         margin="5px 20px 5px 20px"
                         padding="12px"
-                        placeholder="Nickname"
                         _onChange={(e) => {
                             setNickname(e.target.value)
                         }}

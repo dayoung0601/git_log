@@ -27,19 +27,35 @@ const signupAPI = (email, nickname, pw, pwCheck, github) => {
     console.log(nickname, pw);
     const API = 'http://13.125.167.83/api/signup';
     console.log(API);
-    fetch(API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    axios.post(API,
+      {
         password: pw,
-        passwordCheck:pwCheck,
+        passwordConfirm:pwCheck,
         nickname: nickname,
         email:email,
         githubUrl:github,
+      },
+      {
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept' : 'application/json'
+      },
       })
-    })
+    
+    // fetch(API, 
+    //     {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     password: pw,
+    //     passwordCheck:pwCheck,
+    //     nickname: nickname,
+    //     email:email,
+    //     githubUrl:github,
+    //   })
+    // })
       .then((response) => response)
       .then((result) => {
         window.alert('회원가입이 되었습니다!');
@@ -50,30 +66,36 @@ const signupAPI = (email, nickname, pw, pwCheck, github) => {
 
 //로그인 
 const loginAPI = (nickname, pw) => {
-  return function (dispatch, getState, { history }) {
+  return function (dispatch, getState, {history}){
+    console.log(nickname, pw)
     const API = 'http://13.125.167.83/api/login';
-
-    axios({
-      url: '',
-      method: 'post',
-      data: { 
-        nickname: nickname,
-        password: pw 
+    axios.post(API, 
+      {
+        nickname : nickname,
+        password : pw,
       },
-      withCredentials: true
-    })
-      .then((res) => {
-        console.log('로그인', res.data.token);
-        axios.defaults.headers.common[
+      {
+      headers : {
+        'Content-type': 'application/json', 
+        'Accept': 'application/json' 
+      }
+    }).then((res) => {
+      console.log('로그인!', res.data.token);
+      //권한에 대한 디폴트 값 = API응답으로 받아온 토큰값 
+      axios.defaults.headers.common[
           'Authorization'
         ] = `Bearer ${res.data.token}`;
-
-        dispatch(getUserInfo());
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('로그인에 실패했습니다');
-      });
+        //console.log(`Bearer ${res.data.token}`);
+        //로그인 성공했으니까 setUser를 실행시켜서 is_login값을 true로!
+        dispatch(
+          setUser(
+            {
+              nickname: res.data.nickname
+            }))
+    }).catch((err) => {
+      console.log(err);
+      alert('로그인실패!')
+    });
   };
 };
 
@@ -99,17 +121,15 @@ const getUserInfo = () => {
 const loginCheck = () => {
   return function (dispatch, getState, { history }) {
     //const token = "token_ken";
-    
     const token = localStorage.getItem('token');
+    console.log(token);
     if (token) {
       dispatch(
         setUser(
           {
-          username: 'username',
           nickname: 'nickname',
-          kakaoId: 'kakaoId'
-        }
-        )
+          profileImg : '',
+        })
       );
     } else {
       console.log(token);
@@ -127,7 +147,6 @@ const logoutCheck = () => {
     history.replace('/');
   };
 };
-
 
 // const isLogin = () => {
 //   const token = "token_ken";
@@ -164,7 +183,6 @@ const actionCreators = {
   getUser,
   signupAPI,
   loginAPI,
-  // isLogin,
   loginCheck,
   logoutCheck,
   // getUserInfo

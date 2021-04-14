@@ -5,18 +5,22 @@ import {AiFillGithub} from 'react-icons/ai';
 
 import {Grid, Text, Image, Input, Button } from '../elements';
 import {nickNameCheck, pwMatch, pwContinuous, emailCheck} from '../shared/common';
+import {useSelector, useDispatch} from "react-redux";
+import { actionCreators } from "../redux/modules/user";
 
 import { history } from "../redux/configureStore";
 
-const Signup = (props) => {
 
-const [nickname, setNickname] = React.useState('');
-const [nickNameDup, setNicknameDup] = React.useState(false);
-const [pw, setPw] = React.useState('');
-const [pwCheck, setPwCheck] = React.useState('');
-const [email, setEmail] = React.useState('');
-const [emailDup, setEmailDup] = React.useState(false);
-const [github, setGithub] = React.useState('');
+const Signup = (props) => {
+    const dispatch  = useDispatch();
+
+    const [nickname, setNickname] = React.useState('');
+    const [nickNameDup, setNicknameDup] = React.useState(false);
+    const [pw, setPw] = React.useState('');
+    const [pwCheck, setPwCheck] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [emailDup, setEmailDup] = React.useState(false);
+    const [github, setGithub] = React.useState('');
 
 //해당 조건 충족 여부에 따라 info 알려주기
 const changeNickname = (e) => {
@@ -71,7 +75,7 @@ const changePw = (e) => {
     const changePwMatch = (e) => {
         const checkPw = e.target.value;
         setPwCheck(checkPw);
-        const RePwInfo = document.querySelector('ul.ReCheckPw li:nth-child(1)');
+        const RePwInfo = document.querySelector('ul.reCheckPw li:nth-child(1)');
     
         if (pw === checkPw) {
             RePwInfo.classList.add('ok');
@@ -103,16 +107,16 @@ const signUp = () => {
         return false;
     }
 
-    if (emailDup === false) {
-        alert('이메일 중복확인을 해주세요!');
-        return false;
-    }
+    // if (emailDup === false) {
+    //     alert('이메일 중복확인을 해주세요!');
+    //     return false;
+    // }
 
 
-    if (nickNameDup === false) {
-        alert('닉네임 중복확인을 해주세요!');
-        return false;
-    }
+    // if (nickNameDup === false) {
+    //     alert('닉네임 중복확인을 해주세요!');
+    //     return false;
+    // }
 
     
     if(!emailCheck(email)) {
@@ -131,7 +135,7 @@ const signUp = () => {
     //     return false;
     // }
 
-  //dispatch(actionCreators.signupAPI(id,pw...));
+    dispatch(actionCreators.signupAPI(email, nickname, pw, pwCheck, github));
 }
 
 
@@ -254,12 +258,14 @@ const signUp = () => {
                         _onClick={() =>{ 
                             document.querySelector('.checkGithub').style.display = 'block';
                         }}
+                        _onChange={(e) => {
+                            setGithub(e.target.value);
+                        }}
                         />
                 </Grid>
                 {/*유효성 체크API */}
                 <InfoUl className="checkGithub">
-                    <li>예) https://github.com/<b>본인아이디</b></li>
-                    <li>예)에서 본인아이디(영문,숫자,-)에 해당하는 부분만 입력</li>
+                    <li> ex) https://github.com/본인아이디</li>
                 </InfoUl> 
                 </InputWrap>
             </SignupBody>
