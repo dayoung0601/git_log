@@ -4,21 +4,101 @@ import signup from '../scss/signup.css';
 import {AiFillGithub} from 'react-icons/ai';
 
 import {Grid, Text, Image, Input, Button } from '../elements';
-import {nickNameCheck, pwMatch, pwContinuous, emailCheck} from '../shared/common';
+import {nickNameCheck, pwMatch, pwContinuous, emailCheck, githubCheck} from '../shared/common';
+import {useSelector, useDispatch} from "react-redux";
+import { actionCreators } from "../redux/modules/user";
 
 import { history } from "../redux/configureStore";
 
+import axios from 'axios';
+// import { set } from 'immer/dist/internal';
+
+
 const Signup = (props) => {
+    const dispatch  = useDispatch();
 
-const [nickname, setNickname] = React.useState('');
-const [nickNameDup, setNicknameDup] = React.useState(false);
-const [pw, setPw] = React.useState('');
-const [pwCheck, setPwCheck] = React.useState('');
-const [email, setEmail] = React.useState('');
-const [emailDup, setEmailDup] = React.useState(false);
-const [github, setGithub] = React.useState('');
+    const [nickname, setNickname] = React.useState('');
+    const [nickNameDup, setNicknameDup] = React.useState(false);
+    const [pw, setPw] = React.useState('');
+    const [pwCheck, setPwCheck] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [emailDup, setEmailDup] = React.useState(false);
+    const [github, setGithub] = React.useState('');
 
-//해당 조건 충족 여부에 따라 info 알려주기
+
+//CheckEmailAPI(email)
+//서버에 이메일 중복확인 요청 함수
+const CheckEmailAPI = (email) => {                      
+    console.log(email)
+    const API = 'http://13.125.167.83/api/signup/email-check';
+    axios.post(API,{
+        email:email,
+    },
+    {
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept' : 'application/json'
+        },
+    })
+    .then((res) => {
+        console.log('이메일중복확인!', res)
+        if(res === false){
+            alert('이미 등록된 이메일 입니다!');
+            setEmailDup(false);
+        }else{
+            alert('사용 가능한 이메일 입니다 :)');
+            setEmailDup(true);
+        }
+    })
+}
+
+//checkNickNameAPI
+
+const checkNickNameAPI = (nickname) => {                      
+    console.log(nickname)
+    const API = 'http://13.125.167.83/api/signup/nickname-check';
+    axios.post(API,{
+        nickname:nickname,
+    },
+    {
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept' : 'application/json'
+        },
+    })
+    .then((res) => {
+        console.log('이메일중복확인!', res)
+        if(res === false){
+            alert('이미 등록된 닉네임 입니다!');
+            setNicknameDup(false);
+        }else{
+            alert('사용 가능한 닉네임 입니다 :)');
+            setNicknameDup(true);
+        }
+    })
+}
+
+//chekcGirHubUrl
+// const checkGitHubUrl = (github) => {
+//     console.log(github)
+//     //https://github.com/g0garden
+//     const github_base = 'https://github.com/'
+//     const Github_URL = {github_base};
+//     axios.post(Github_URL, {
+
+//         githubUrl:
+//         }
+//         ).then((res) => {
+//         console.log('깃헙주소있나요?', res)
+//     })
+
+// }
+
+
+
+
+
+    //해당 조건 충족 여부에 따라 info 알려주기
 const changeNickname = (e) => {
 
     setNickname(e.target.value);
@@ -30,6 +110,20 @@ const changeNickname = (e) => {
     } else {
         nickNameInfo.classList.add('ok');
         nickNameInfo.classList.remove('error');
+    }
+}
+
+const changeGithub = (e) => {
+    
+    setGithub(e.target.value);
+    const githubInfo = document.querySelector('ul.checkGithub li:nth-child(1)');
+
+    if(!githubCheck(e.target.value)){
+        githubInfo.classList.add('error');
+        githubInfo.classList.remove('ok');        
+    }else{
+        githubInfo.classList.add('ok');
+        githubInfo.classList.remove('error');  
     }
 }
 
@@ -71,7 +165,7 @@ const changePw = (e) => {
     const changePwMatch = (e) => {
         const checkPw = e.target.value;
         setPwCheck(checkPw);
-        const RePwInfo = document.querySelector('ul.ReCheckPw li:nth-child(1)');
+        const RePwInfo = document.querySelector('ul.reCheckPw li:nth-child(1)');
     
         if (pw === checkPw) {
             RePwInfo.classList.add('ok');
@@ -82,7 +176,7 @@ const changePw = (e) => {
         }
     }
 
-    //github 아이디 받기 
+    //github 주소 url 받기 
     // const changeGithub  = (e) => {
     //     const checkGithub = e.target.value;
     //     setGithub(checkGithub);
@@ -93,37 +187,45 @@ const changePw = (e) => {
 // signup버튼 눌렀을때 빈칸체크하기
 const signUp = () => {
     
+    if(email === '') {
+        alert('이메일을 입력해주세요!')
+        return false;
+    }
+    
     if(nickname === '') {
         alert('닉네임을 입력해주세요!')
         return false;
     }
 
-    if(email === '') {
-        alert('이메일을 입력해주세요!')
+    if (emailDup === false) {
+        alert('이메일 중복확인을 해주세요!');
         return false;
     }
+
 
     if (nickNameDup === false) {
         alert('닉네임 중복확인을 해주세요!');
         return false;
     }
 
-        if (emailDup === false) {
-        alert('이메일 중복확인을 해주세요!');
-        return false;
-    }
-
+    
     if(!emailCheck(email)) {
         alert('이메일 형식을 지켜주세요!');
         return false;
     }
 
     if(github === '') {
-        alert('깃허브 아이디를 입력해주세요!')
+        alert('깃허브 주소를 입력해주세요!')
         return false;
     }
 
+    //깃허브 형식 체크 -> 유효한 url인지
+    // if(!githubCheck(github)) {
+    //     alert('깃허브 주소를 다시 확인해주세요!');
+    //     return false;
+    // }
 
+    dispatch(actionCreators.signupAPI(email, nickname, pw, pwCheck, github));
 }
 
 
@@ -167,7 +269,8 @@ const signUp = () => {
                                 alert('이메일 형식을 지켜주세요!');
                                 return false;
                             }
-                            //checkEmailAPI(email);
+                            //이메일중복확인 API
+                            CheckEmailAPI(email);
                         }}>중복확인</Button>
                 </Grid>
                 
@@ -195,7 +298,7 @@ const signUp = () => {
                                 alert('닉네임은 6자 이상의 영문 혹은 영문과 숫자 조합만 가능합니다.');
                                 return false;
                             }
-                            //checkNicknameAPI(nickname);
+                            checkNickNameAPI(nickname);
                         }} >중복확인</Button>
                 </Grid>
                 <InfoUl className="checkNickname">
@@ -237,21 +340,37 @@ const signUp = () => {
                 <InfoUl className="reCheckPw">
                     <li>동일한 비밀번호를 입력</li>
                 </InfoUl>
-                <Grid is_flexmargin="5px 0">
+                <Grid is_flex width="100%" margin="5px 0">
                 <Input 
-                        placeholder="Github address"
+                        placeholder="Nickname"
                         type="text" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 
-                        _onClick={() =>{ 
+                        _onClick={() => {
+                            // console.log("ㅇㅇ");
                             document.querySelector('.checkGithub').style.display = 'block';
                         }}
+                        _onChange={(e) => {
+                            // console.log(e.target.value);
+                            changeGithub(e);
+                        }}
                         />
+                    <Button  
+                        width="20%" 
+                        margin="0px 30px 0px 0px" padding="10px" 
+                        size="0.5vw" color="white"
+                        _onClick={() => {
+                            if(!githubCheck(github)){
+                                alert('영문 혹은 영문과 숫자 조합만 가능');
+                                return false;
+                            }
+                            //checkGitHub(github);
+                        }} >check!</Button>
                 </Grid>
                 {/*유효성 체크API */}
                 <InfoUl className="checkGithub">
-                    <li>예) https://github.com/<b>본인아이디</b></li>
-                    <li>예)에서 본인아이디(영문,숫자,-)에 해당하는 부분만 입력</li>
+                    <li> 본인 깃허브주소의 아이디만 입력하세요 : )</li>
+                    <li> ex) https://github.com/아이디</li>
                 </InfoUl> 
                 </InputWrap>
             </SignupBody>

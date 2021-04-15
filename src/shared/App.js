@@ -1,6 +1,3 @@
-// 확인
-// 하나 더 푸쉬
-
 import "./App.css";
 import React from "react";
 import styled from "styled-components";
@@ -21,9 +18,9 @@ function App() {
     <Responsive>
       <Header/>
       <ConnectedRouter history={history}>
-        <Route path="/signup" exact component={Signup} />
+        <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/postlist" exact component={PostList} />
+        <Route path="/" exact component={PostList} />
       </ConnectedRouter>
     </Responsive>
     </Background>
