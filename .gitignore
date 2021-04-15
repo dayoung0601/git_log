@@ -1,6 +1,6 @@
 
-git_log/node_modules
-node_modules
-git_log/src/redux/modules/user
+fork_gitlog_/node_modules
+node_modules/
+fork_gitlog_/src/redux/modules/user
 node_modules/.cache/.eslintcache
 node_modules/.yarn-integrity
