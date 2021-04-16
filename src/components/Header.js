@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {history} from '../redux/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Header = () => {
+const Header = (props) => {
 
     //스토어에서 state값 가져오기
     const is_login = useSelector((state) => state.user.is_login); //.user모듈에서
@@ -20,9 +20,15 @@ const Header = () => {
                 <AiFillGithub/> Git_log
             </Logo>
             <HeaderBtns className="login">
-                <Image width="50%" margin="10px 10px 10px 0" alt="회원가입" 
+            <ProfileImg src={props.user_info.profile}
+                        _onClick={() => {
+                            console.log('img 클릭!')
+                            //history.push('/setting');
+                        }}/>
+            {/* <Image width="50%" shape="circle" 
                 radius="8px" size="0.9vw" color="white"
                 src="https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"/>
+                이미지 */}
             </HeaderBtns>
         </Grid>
         
@@ -54,12 +60,28 @@ const Header = () => {
     );
 };
 
+Header.defaultProps = {
+    user_info: {
+        profile:
+        "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
+    },
+};
+
 const Logo = styled.div`
     margin: 20px;
     width: 50%;
     font-weight: 600;
     font-size: 1.8vw;
 
+`;
+
+const ProfileImg = styled.img`
+    width: 30%;
+    aspect-ratio: 1/1;
+    border-radius: 100px;
+    background-image: url("${(props) => props.src}");
+    margin-right: 0px;
+    cursor:pointer;
 `;
 
 const HeaderBtns = styled.div`

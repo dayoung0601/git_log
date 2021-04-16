@@ -28,7 +28,7 @@ const Login = () => {
         console.log(nickname, pw);
         //dispatch(actionCreators.loginCheck());
         dispatch(actionCreators.loginAPI(nickname,pw));
-        history.push('/');
+        //history.push('/');
 
     }
 

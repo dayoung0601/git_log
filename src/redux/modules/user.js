@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
+// import { set } from 'immer/dist/internal';
 
 // actions
 // const LOG_IN = "LOG_IN";
@@ -67,25 +68,30 @@ const loginAPI = (nickname, pw) => {
       headers : {
         'Content-type': 'application/json', 
         'Accept': 'application/json' 
-      }
-    }).then((res) => {
-      console.log('로그인!', res.data.token);
-      //권한에 대한 디폴트 값 = API응답으로 받아온 토큰값 
-      axios.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${res.data.token}`;
-        //console.log(`Bearer ${res.data.token}`);
-        //로그인 성공했으니까 setUser를 실행시켜서 is_login값을 true로!
-        dispatch(
-          setUser(
-            {
-              nickname: res.data.nickname
-            }))
-    }).catch((err) => {
+      },
+      withCredentials: true//cors관련 
+    })
+    // .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      //console.log(response.data.token)
+      //로그인 성공시 토큰, 유저 정보 저장
+      let userInfo = response.config.data
+      userInfo = JSON.parse(userInfo);
+      localStorage.setItem('token', response.data.token);
+    })
+    .catch((err) => {
       console.log(err);
       alert('로그인실패!')
-    });
-  };
+    })
+
+    dispatch(setUser({
+      nickname : nickname,
+      password : pw,
+    })
+  );
+    history.push('/');
+  }
 };
 
 
@@ -100,7 +106,7 @@ const getUserInfo = () => {
           nickname: res.data.nickname, 
         })
       );
-      history.replace('/');
+    
     });
   };
 };

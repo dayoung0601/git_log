@@ -255,7 +255,7 @@ const signUp = () => {
                         type="text" 
                         width="85%" 
                         margin="5px 0px 5px 35px"
-                        padding="12px 4px" 
+                        
                         _onChange={(e) => {
                             setEmail(e.target.value)}}/>
                     <Button  
@@ -355,7 +355,7 @@ const signUp = () => {
                             changeGithub(e);
                         }}
                         />
-                    <Button  
+                    {/* <Button  
                         width="20%" 
                         margin="0px 30px 0px 0px" padding="10px" 
                         size="0.5vw" color="white"
@@ -365,7 +365,7 @@ const signUp = () => {
                                 return false;
                             }
                             //checkGitHub(github);
-                        }} >check!</Button>
+                        }} >check!</Button> */}
                 </Grid>
                 {/*유효성 체크API */}
                 <InfoUl className="checkGithub">
