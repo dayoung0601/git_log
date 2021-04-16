@@ -10,13 +10,19 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 
+import { useSelector } from "react-redux";
+
 import Header from "../components/Header";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import PostList from "../pages/PostList";
 import PostWrite from "../pages/PostWrite";
 
+
 function App() {
+  
+  const is_login = useSelector((state) => state.user.is_login);
+
   return (
     <React.Fragment>
       <Background>
@@ -28,10 +34,9 @@ function App() {
             <Route path="/" exact component={PostList} />
             <Route path="/write" exact component={PostWrite} />
           </ConnectedRouter>
-          {/* 버튼에 권한주기 */}
-          <WriteBtn
+         { is_login && <WriteBtn
             onClick={() => history.push("/write")}
-          >+ 새 글 등록</WriteBtn>
+          >+ 새 글 등록</WriteBtn> }
         </Responsive>
       </Background>
     </React.Fragment>
