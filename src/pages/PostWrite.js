@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { Grid, Text, Button, Input, Image } from "../elements/index";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -18,16 +19,15 @@ const PostWrite = () => {
   const preview = useSelector((state) => state.image.preview);
   // is_uploading = useSelector((state) => state.image.uploading);
 
-
-  // 게시글 사진
-  const fileInput = React.useRef();
+  // // 게시글 사진
+  const image_ref = React.useRef("");
 
   const selectFile = (e) => {
     // changed 된 event (e.target은 input)
     console.log(e.target.files); // input 이 가진 files 객체
     console.log(e.target.files[0]); //선택한 파일이 어떻게 저장되어 있나 확인
-    console.log(fileInput.current.files[0]); //ref로도 확인;
-
+    console.log(image_ref.current.files[0]); //ref로도 확인;
+  }
   //   const reader = new FileReader();
   //   const file = fileInput.current.files[0];
 
@@ -37,27 +37,53 @@ const PostWrite = () => {
   //     console.log(reader.result);
   //     dispatch(imageActions.setPreview(reader.result));
   //   };
-  };
+  // };
 
+  // // 게시글 내용
+  // const [content, setContent] = React.useState("");
+  // const changeContent = (e) => {
+  //   setContent(e.target.value);
+  // };
 
-  // 게시글 내용
-  const [content, setContent] = React.useState("");
-  const changeContent = (e) => {
-    setContent(e.target.value);
-  };
+  // const addPost = () => {
+  //   let post = { contet : content };
 
+  //   dispatch(postActions.addPostAPI(content));
+  //   dispatch(postActions.uploadImageAPI(fileInput.current.files[0]));
+  // };
+
+  const content = React.useRef("");
+ 
   const addPost = () => {
-    let post = { contet : content };
+    let imgUrl=image_ref.current.files[0]
+    const form = new FormData();
+    form.append("content", content.current.value);
+    form.append("imgUrl", imgUrl.current.value);
+    for (var key of form.keys()) {
+      console.log(key);
+    }
 
-    dispatch(postActions.addPostAPI(content));
-    // dispatch(postActions.uploadImageAPI(fileInput.current.files[0]));
+    axios({
+      method: "post",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer" + localStorage.getItem("jwt"),
+      },
+      url: "http://15.165.77.77:8080/api/boards",
+      data: form,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    history.push("/");
   };
 
   //   if (!is_login) {
   //     return (
   //       <Grid margin="100px 0px" padding="16px" center>
-  //         <Text size="32px" bold>
-  //         </Text>
   //         <Text size="16px">로그인 후 글을 쓸 수 있어요</Text>
   //         <Button
   //           _onClick={() => {
@@ -73,7 +99,7 @@ const PostWrite = () => {
   return (
     <React.Fragment>
       <h2>게시글 작성</h2>
-      <input type="file" ref={fileInput} onChange={selectFile} />
+      <input type="file" ref={image_ref} />
       <Grid flex margin="20px 0px">
         <Grid>
           <Preview
@@ -87,7 +113,7 @@ const PostWrite = () => {
               rows={16}
               label="게시글 내용"
               placeholder="내용을 입력해주세요"
-              onChange={changeContent}
+              // onChange={changeContent}
               ref={content}
             />
           </Grid>

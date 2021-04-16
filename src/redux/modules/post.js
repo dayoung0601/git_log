@@ -18,12 +18,12 @@ const initialState = {
 };
 
 const initialPost = {
-  image_url: "",
+  imgUrl: "https://pbs.twimg.com/profile_images/1246486049964068865/PMGeB3d0_400x400.jpg",
   uploading: false,
   preview: null,
-  comment_cnt: 0,
-  heart_cnt: 0,
-  insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+  commentCnt: 0,
+  heartCnt: 0,
+  createdAt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
 const axiosInstance = axios.create({
@@ -104,20 +104,30 @@ const getPostAPI = (post) => {
 
 
 // 게시물 등록하기
-const addPostAPI = (post) => {
-  return function (dispatch, getState, { history }) {
-    const API = "http://13.125.167.83/api/posts";
-    axios
-      .post(API, post)
-      .then((res) => {
-        dispatch(addPost(post));
-        history.push("/");
-      })
-      .catch((err) => {
-        console.error("작성 실패", err);
-      });
-  };
-};
+// const addPostAPI = (content="") => {
+//   return function (dispatch, getState, { history }) {
+    
+//         const _post = {
+//           ...initialPost,
+//           content:content,
+//           createdAt: moment().format("YYYY-MM-DD hh:mm:ss"),  //initalPost에 있지만 그 시점마다 업데이트 해줘야 하니까
+//           // heartCnt:0,
+//           // heartId: [],
+//         };
+
+//         // const _image =  getState().image.preview;
+
+
+//         axios.post("http://13.125.167.83/api/posts")
+//           .then((res) => {
+//         dispatch(addPost());
+//         history.push("/");
+//       })
+//       .catch((err) => {
+//         console.error("작성 실패", err);
+//       });
+//   };
+// };
 
 // 게시물 삭제하기
 const deletePost = (postId) => {
@@ -159,7 +169,7 @@ const actionCreators = {
   setPost,
   getPostAPI,
   getPostByUserAPI,
-  addPostAPI,
+  // addPostAPI,
   deletePost,
   updatePost,
 };
