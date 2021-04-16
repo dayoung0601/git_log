@@ -4,23 +4,74 @@ import {AiFillGithub} from 'react-icons/ai';
 
 import styled from 'styled-components';
 
-const Header = () => {
+import {history} from '../redux/configureStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators } from '../redux/modules/user';
+
+const Header = (props) => {
+    const dispatch = useDispatch();
+    //스토어에서 state값 가져오기
+    const is_login = useSelector((state) => state.user.is_login); //.user모듈에서
+    //const local_token = localStorage.getItem("token") ? true : false;
+    console.log(is_login);
+    
+    if(is_login){
+        return (
+        <Grid is_flex>
+            <Logo>
+                <AiFillGithub/> Git_log
+            </Logo>
+            <HeaderBtns className="login">
+            <ProfileImg src={props.user_info.profile}
+                        onClick={() => {
+                            console.log('img 클릭!')
+                            //history.push('/setting');
+                        }}/>
+            <LogOutBtn onClick=
+                        {() => {
+                            dispatch(actionCreators.logOut())
+                        }
+                    }/>
+            {/* <Image width="50%" shape="circle" 
+                radius="8px" size="0.9vw" color="white"
+                src="https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"/>
+                이미지 */}
+            </HeaderBtns>
+        </Grid>
+        
+        
+    );} else{
     return (
         <Grid is_flex>
             <Logo>
                 <AiFillGithub/> Git_log
             </Logo>
-            {/*변경 예정입니다 */}
+            
             <HeaderBtns className="login">
                 <Button width="50%" margin="10px 10px 10px 0" alt="회원가입" 
-                radius="8px" size="0.9vw"  color="white">SignUp</Button>
+                radius="8px" size="0.9vw"  color="white"
+                _onClick={() => {
+                    history.push('/signup');
+                }}
+                >SignUp</Button>
                 <Button width="50%" margin="10px 0 10px 10px" alt="로그인" 
-                radius="8px" size="0.9vw" bg="#ffffff" color="#24292e">Login</Button>
+                radius="8px" size="0.9vw" bg="#ffffff" color="#24292e"
+                _onClick={() => {
+                    history.push('/login');
+                }}
+                >Login</Button>
             </HeaderBtns>
         </Grid>
         
         
     );
+};}
+
+Header.defaultProps = {
+    user_info: {
+        profile:
+        "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
+    },
 };
 
 const Logo = styled.div`
@@ -31,12 +82,31 @@ const Logo = styled.div`
 
 `;
 
+const ProfileImg = styled.img`
+    width: 30%;
+    aspect-ratio: 1/1;
+    border-radius: 100px;
+    background-image: url("${(props) => props.src}");
+    margin-right: 0px;
+    cursor:pointer;
+`;
+
 const HeaderBtns = styled.div`
     width: 30%;
     display: flex;
     justify-content: space-evenly;
     width:10%;
     margin: 10px;
+
+`;
+
+const LogOutBtn = styled.button`
+    width: 30%;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+    background-image: url("${(props) => props.src}");
+    margin-right: 0px;
+    cursor:pointer;
 
 `;
 

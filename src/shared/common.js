@@ -22,9 +22,18 @@ export const pwContinuous = (pw) => {
 
 //이메일 체크 정규식
 export const emailCheck = (email) => {
-
+    //글자체크 aaa_-.123Aaa@aa.com
     let _reg=/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    
     return _reg.test(email);
 
 }
+
+//깃헙아이디 체크 정규식 
+export const githubCheck = (github) => {
+    const _reg =/^(?!(?:[0-9]+)$)([-_.a-zA-Z]|[-_.0-9a-zA-Z]){6,}$/;
+    return _reg.test(github);
+}
+
+// https://github.com/g0garden
 

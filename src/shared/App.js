@@ -1,27 +1,39 @@
-// 확인
-// 하나 더 푸쉬
-
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Grid, Button } from "../elements";
-
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
+<<<<<<< HEAD
 import { history } from "../redux/configureStore";
 
 import { useSelector } from "react-redux";
 
+=======
+>>>>>>> 92b3f7fd7c4e5cd2759be2d4b83572b6ee2a9f2e
 import Header from "../components/Header";
-import Signup from "../pages/Signup";
-import Login from "../pages/Login";
-import PostList from "../pages/PostList";
-import PostWrite from "../pages/PostWrite";
+import Signup from '../pages/Signup';
+import Login from '../pages/Login';
+import PostList from '../pages/PostList';
+
+import { history } from "../redux/configureStore";
+import { useDispatch } from 'react-redux';
+import { actionCreators} from '../redux/modules/user';
 
 
 function App() {
   
   const is_login = useSelector((state) => state.user.is_login);
+  const dispatch = useDispatch();
+  const local_token = localStorage.getItem("token") ? true : false;
+
+
+  //제일 처음에 렌더링 될때 
+  useEffect(() => {
+    if(local_token){
+      dispatch(actionCreators.loginCheck(local_token));
+    }
+
+  },[])
 
   return (
     <React.Fragment>
@@ -55,27 +67,8 @@ const Background = styled.div`
 `;
 const Responsive = styled.div`
   ${(prop) => prop.theme.responsiveContainer};
-  width: 60vw;
-  margin: auto;
-`;
-
-const WriteBtn = styled.div`
-  width: 150px;
-  height:45px;
-  border-radius:50px;
-  background-color: #eee;
-  color: #212121;
-  box-sizing: border-box;
-  font-size: 1.2em;
-  font-weight: 500;
-  padding: 10px;
-  position: fixed;
-  bottom: 120px;
-  right: 100px;
-  text-align: center;
-  vertical-align: middle;
-  border: #eee;
-  box-shadow:#eee;
+  width: 70vw;
+  margin:auto;
 `;
 
 export default App;
