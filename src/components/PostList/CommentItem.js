@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Grid, Image, Text, Input } from "../../elements";
 
-const CommentList = (props) => {
+
+const CommentItem = (props) => {
+
   return (
     <React.Fragment>
-      <div flex-direction="column">
+        <div flex-direction="column">
         <Grid flex>
           <ProfileImg src={props.user_info.profile} />
           <Text bold>{props.user_info.nickname}</Text>
@@ -18,7 +20,7 @@ const CommentList = (props) => {
   );
 };
 
-CommentList.defaultProps = {
+CommentItem.defaultProps = {
   user_info: {
     nickname: "_nickname",
     profile:
@@ -36,4 +38,4 @@ const ProfileImg = styled.img`
 `;
 
 
-export default CommentList;
+export default CommentItem;
