@@ -78,25 +78,6 @@ const checkNickNameAPI = (nickname) => {
     })
 }
 
-//chekcGirHubUrl
-// const checkGitHubUrl = (github) => {
-//     console.log(github)
-//     //https://github.com/g0garden
-//     const github_base = 'https://github.com/'
-//     const Github_URL = {github_base};
-//     axios.post(Github_URL, {
-
-//         githubUrl:
-//         }
-//         ).then((res) => {
-//         console.log('깃헙주소있나요?', res)
-//     })
-
-// }
-
-
-
-
 
     //해당 조건 충족 여부에 따라 info 알려주기
 const changeNickname = (e) => {

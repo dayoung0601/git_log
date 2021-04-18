@@ -41,7 +41,7 @@ const Post = (props) => {
           </Body2Contents>
 
           <Body3CommentList>
-         
+          
               <CommentItem />
           
           </Body3CommentList>

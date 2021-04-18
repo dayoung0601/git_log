@@ -15,7 +15,7 @@ const PostList = (props) => {
     // 본인만 게시글 수정 기능 만들 때 사용
 
     console.log(post_list);
-   
+
 
     React.useEffect(() => {
             dispatch(postActions.getPostAPI());
@@ -24,7 +24,7 @@ const PostList = (props) => {
     return (
         <React.Fragment>
             {post_list.map((p, idx) => {
-                 return <Post key={p.id} {...p}/>
+                return <Post key={p.id} {...p}/>
             })}
             {/* <Post/> */}
         </React.Fragment>

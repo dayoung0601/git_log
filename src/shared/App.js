@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import PostList from '../pages/PostList';
+import Story from '../pages/Story';
 
 import { history } from "../redux/configureStore";
 import { useDispatch } from 'react-redux';
@@ -33,6 +34,7 @@ function App() {
       <ConnectedRouter history={history}>
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
+        <Route path="/story" component={Story} />
         <Route path="/" exact component={PostList} />
       </ConnectedRouter>
     </Responsive>
