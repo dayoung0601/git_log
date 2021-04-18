@@ -22,6 +22,7 @@ const loginCheck = createAction(LOGIN_CHECK, (token) => ({ token }));
 const initialState = {
   user: null,
   is_login: false,
+  is_me: false,
 };
 
 //API요청(middleware actions)
@@ -43,7 +44,8 @@ const signupAPI = (email, nickname, pw, pwCheck, github) => {
       {
         headers: {
         'Content-Type': 'application/json',
-        'Accept' : 'application/json'
+        'Accept' : 'application/json',
+        
       },
       })
       .then((response) => response)
@@ -67,7 +69,7 @@ const loginAPI = (nickname, pw) => {
       {
       headers : {
         'Content-type': 'application/json', 
-        'Accept': 'application/json' 
+        'Accept': 'application/json' ,
       },
       withCredentials: true//cors관련 
     })

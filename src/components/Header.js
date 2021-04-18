@@ -13,7 +13,7 @@ const Header = (props) => {
     //스토어에서 state값 가져오기
     const is_login = useSelector((state) => state.user.is_login); //.user모듈에서
     //const local_token = localStorage.getItem("token") ? true : false;
-    console.log(is_login);
+
     
     if(is_login){
         return (

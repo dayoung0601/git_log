@@ -3,21 +3,22 @@ import { produce } from "immer";
 import axios from "axios";
 import moment from "moment";
 
-const initialState ={
-    image_url: "",
-    uplaoding: false,
-    preview: null,
-};
-
 // actions
-const UPLOAD_IMAGE = "UPLOAD_IMAGE";
-const UPLOADING = "UPLOADING";
+const UPLOAD_IMAGE = "UPLOAD_IMAGE";  
+const UPLOADING = "UPLOADING";    //업로드 여부
 const SET_PREVIEW = "SET_PREVIEW";
  
 // actionCreators: createAction
 const uploadImage = createAction(UPLOAD_IMAGE, (image_url) => ({ image_url }));
 const uploading = createAction(UPLOADING, (uploading) => ({ uploading }));
 const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
+
+
+const initialState ={
+    image_url: "",
+    uplaoding: false,
+    preview: null,
+};
 
 // middleware
 

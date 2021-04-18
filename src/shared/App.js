@@ -3,17 +3,23 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
+import { history } from "../redux/configureStore";
+
 import Header from "../components/Header";
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import PostList from '../pages/PostList';
+
 import Story from '../pages/Story';
 
-import { history } from "../redux/configureStore";
-import { useDispatch } from 'react-redux';
-import { actionCreators} from '../redux/modules/user';
+import PostWrite from '../pages/PostWrite';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { actionCreators } from '../redux/modules/user';
+
 
 function App() {
+  
   const dispatch = useDispatch();
   const local_token = localStorage.getItem("token") ? true : false;
 
@@ -29,16 +35,20 @@ function App() {
   return (
     <React.Fragment>
       <Background>
-    <Responsive>
-      <Header/>
-      <ConnectedRouter history={history}>
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/story" component={Story} />
-        <Route path="/" exact component={PostList} />
-      </ConnectedRouter>
-    </Responsive>
-    </Background>
+
+        <Responsive>
+          <Header />
+          <ConnectedRouter history={history}>
+            <Route path="/signup" exact component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route path="/" exact component={PostList} />
+            <Route path="/write" exact component={PostWrite} />
+            <Route path="/write/:id" exact component={PostWrite} />
+            <Route path="/story" component={Story} />
+          </ConnectedRouter>
+        
+        </Responsive>
+      </Background>
     </React.Fragment>
   );
 }
@@ -53,10 +63,13 @@ const Background = styled.div`
   height: 100%;
   background-color: ${(props) => props.theme.main_bg_color};
 `;
+
 const Responsive = styled.div`
   ${(prop) => prop.theme.responsiveContainer};
-  width: 70vw;
-  margin:auto;
+  width: 60vw;
+  margin: auto;
 `;
+
+
 
 export default App;
