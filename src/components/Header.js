@@ -18,7 +18,9 @@ const Header = (props) => {
     if(is_login){
         return (
         <Grid is_flex>
-            <Logo>
+            <Logo onClick={() => {
+                history.push('/');
+            }}>
                 <AiFillGithub/> Git_log
             </Logo>
             <HeaderBtns className="login">
@@ -43,7 +45,9 @@ const Header = (props) => {
     );} else{
     return (
         <Grid is_flex>
-            <Logo>
+            <Logo onClick={() => {
+                history.push('/');
+            }}>
                 <AiFillGithub/> Git_log
             </Logo>
             
@@ -79,7 +83,7 @@ const Logo = styled.div`
     width: 50%;
     font-weight: 600;
     font-size: 1.8vw;
-
+    cursor: pointer;
 `;
 
 const ProfileImg = styled.img`
