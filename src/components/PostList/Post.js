@@ -64,7 +64,9 @@ const Post = React.memo((props) => {
           </Body2Contents>
 
           <Body3CommentList>
-            <CommentItem />
+
+              <CommentItem />
+          
           </Body3CommentList>
 
           <Body4Count>

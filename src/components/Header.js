@@ -18,20 +18,22 @@ const Header = (props) => {
     if(is_login){
         return (
         <Grid is_flex>
-            <Logo>
+            <Logo onClick={() => {
+                history.push('/');
+            }}>
                 <AiFillGithub/> Git_log
             </Logo>
             <HeaderBtns className="login">
             <ProfileImg src={props.user_info.profile}
                         onClick={() => {
-                            console.log('img 클릭!')
+                            history.push('/story');
                             //history.push('/setting');
                         }}/>
             <LogOutBtn onClick=
                         {() => {
                             dispatch(actionCreators.logOut())
                         }
-                    }/>
+                    }>logout</LogOutBtn>
             {/* <Image width="50%" shape="circle" 
                 radius="8px" size="0.9vw" color="white"
                 src="https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"/>
@@ -43,7 +45,9 @@ const Header = (props) => {
     );} else{
     return (
         <Grid is_flex>
-            <Logo>
+            <Logo onClick={() => {
+                history.push('/');
+            }}>
                 <AiFillGithub/> Git_log
             </Logo>
             
@@ -79,7 +83,7 @@ const Logo = styled.div`
     width: 50%;
     font-weight: 600;
     font-size: 1.8vw;
-
+    cursor: pointer;
 `;
 
 const ProfileImg = styled.img`
@@ -101,11 +105,13 @@ const HeaderBtns = styled.div`
 `;
 
 const LogOutBtn = styled.button`
-    width: 30%;
+    width: 40%;
+    margin-right: 0px;
+    padding-right: 4px;
+    font-size:0.8vw;
     aspect-ratio: 1/1;
     border-radius: 8px;
     background-image: url("${(props) => props.src}");
-    margin-right: 0px;
     cursor:pointer;
 
 `;
