@@ -10,7 +10,7 @@ const Story = (props) => {
             <ProfileInfoBox>
                 <ProfileImgBox>
                     <ProfileImg
-                        src={props.user_info.profileImg}></ProfileImg>
+                        src={props.user_info.profile}></ProfileImg>
                     <EditImg><EditImgBtn/></EditImg>
                 </ProfileImgBox>
                 <ProfileUserInfo>
@@ -30,8 +30,7 @@ const Story = (props) => {
 
 Story.defaultProps = {
     user_info: {
-        profileImg:
-        "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
+        profile:"https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
         nickname: "g0garen",
         github_address:"http://github/com/g0garden",
         Introduction:"간단한자기소개",

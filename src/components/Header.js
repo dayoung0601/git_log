@@ -13,7 +13,7 @@ const Header = (props) => {
     //스토어에서 state값 가져오기
     const is_login = useSelector((state) => state.user.is_login); //.user모듈에서
     //const local_token = localStorage.getItem("token") ? true : false;
-    console.log(is_login);
+    // console.log(is_login);
     
     if(is_login){
         return (
@@ -24,16 +24,17 @@ const Header = (props) => {
                 <AiFillGithub/> Git_log
             </Logo>
             <HeaderBtns className="login">
+            <LogOutBtn onClick=
+                        {() => {
+                            dispatch(actionCreators.logOut())
+                        }
+                    }>log out</LogOutBtn>
             <ProfileImg src={props.user_info.profile}
                         onClick={() => {
                             history.push('/story');
                             //history.push('/setting');
                         }}/>
-            <LogOutBtn onClick=
-                        {() => {
-                            dispatch(actionCreators.logOut())
-                        }
-                    }>logout</LogOutBtn>
+            
             {/* <Image width="50%" shape="circle" 
                 radius="8px" size="0.9vw" color="white"
                 src="https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"/>
@@ -96,24 +97,25 @@ const ProfileImg = styled.img`
 `;
 
 const HeaderBtns = styled.div`
-    width: 30%;
+    width: 11%;
     display: flex;
     justify-content: space-evenly;
-    width:10%;
-    margin: 10px;
 
 `;
 
 const LogOutBtn = styled.button`
-    width: 40%;
-    margin-right: 0px;
-    padding-right: 4px;
-    font-size:0.8vw;
-    aspect-ratio: 1/1;
-    border-radius: 8px;
-    background-image: url("${(props) => props.src}");
+    width: 60%;
+    background-color:#24292e;
+    color: white;
+    /* margin-right: 0px;
+    padding-right: 4px; */
+    font-size:0.9vw;
+    border-radius: 20px;
     cursor:pointer;
-
+    &:hover{
+        background-color:white;
+        color: #24292e;
+    }
 `;
 
 export default Header;

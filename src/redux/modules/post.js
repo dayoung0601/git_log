@@ -54,7 +54,8 @@ const axiosInstance = axios.create({
 // 스토리 페이지 : 해당 유저 게시글 목록 조회
 const getPostByUserAPI = (userId) => {
   return function (dispatch, getState, { history }) {
-    axios.get(`/api/post/${userId}`).then((res) => {
+    axios.get(`/api/post/${userId}`)
+      .then((res) => {
       dispatch(setPost(res.data));
     });
   };
@@ -83,7 +84,7 @@ const getPostAPI = (post) => {
             imgUrl: doc.imgUrl,
             writerNickname: doc.createdBy,
             writerProfile: doc.accountResponseDto.profileImgUrl,
-            createdAt: doc.cratedAt,
+            createdAt: doc.createdAt,
             modifiedAt: doc.modifiedAt,
             commentList: doc.comments,
             commentCnt: doc.commentCnt,
