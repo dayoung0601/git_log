@@ -323,7 +323,7 @@ const signUp = () => {
                 </InfoUl>
                 <Grid is_flex width="100%" margin="5px 0">
                 <Input 
-                        placeholder="Nickname"
+                        placeholder="Github ID"
                         type="text" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 

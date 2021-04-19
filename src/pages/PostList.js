@@ -38,7 +38,7 @@ const PostList = (props) => {
     
             { is_login && <WriteBtn
             onClick={() => history.push("/write")} 
-          ><AiFillEdit color="#ffffff" size="60%"/></WriteBtn> }
+            ><AiFillEdit color="#ffffff" size="60%"/></WriteBtn> }
         </React.Fragment>
         )
 } 

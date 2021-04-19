@@ -68,6 +68,7 @@ const getPostAPI = (post) => {
           };
           post_list.push(post);
         });
+
         dispatch(setPost(post_list));
       })
       .catch((err) => {

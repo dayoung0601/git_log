@@ -26,7 +26,7 @@ function App() {
   //제일 처음에 렌더링 될때 
   useEffect(() => {
     if(local_token){
-      dispatch(actionCreators.loginCheck(local_token));
+      dispatch(actionCreators.getUserInfoAPI(local_token));
     }
   },[])
 
