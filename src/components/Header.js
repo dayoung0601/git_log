@@ -24,6 +24,7 @@ const Header = (props) => {
                 <AiFillGithub/> Git_log
             </Logo>
             <HeaderBtns className="login">
+            
             <LogOutBtn onClick=
                         {() => {
                             dispatch(actionCreators.logOut())

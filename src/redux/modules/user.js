@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 // import { set } from 'immer/dist/internal';
 
 // actions
@@ -8,27 +9,28 @@ import axios from 'axios';
 const LOG_OUT = 'LOG_OUT';
 const GET_USER = 'GET_USER';
 const SET_USER = 'SET_USER';
-const LOGIN_CHECK = 'LOGIN_CHECK';
+//const LOGIN_CHECK = 'LOGIN_CHECK';
 
 // actionCreators: createAction
 // const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const getUser = createAction(GET_USER, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
-const loginCheck = createAction(LOGIN_CHECK, (token) => ({ token }));
+//const loginCheck = createAction(LOGIN_CHECK, (token) => ({ token }));
 
 
 // initial State
 const initialState = {
   user: null,
   is_login: false,
+  is_me:false,
 };
 
 //API요청(middleware actions)
 //id=email
 const signupAPI = (email, nickname, pw, pwCheck, github) => {
   return function (dispatch, getState, { history }) {
-    console.log(nickname, pw);
+    // console.log(nickname, pw);
     
     const API = 'http://13.125.167.83/api/signup';
     console.log(API);
@@ -57,8 +59,9 @@ const signupAPI = (email, nickname, pw, pwCheck, github) => {
 //로그인 
 const loginAPI = (nickname, pw) => {
   return function (dispatch, getState, {history}){
-    console.log(nickname, pw)
+    //console.log(nickname, pw)
     const API = 'http://13.125.167.83/api/login';
+    
     axios.post(API, 
       {
         nickname : nickname,
@@ -71,58 +74,75 @@ const loginAPI = (nickname, pw) => {
       },
       withCredentials: true//cors관련 
     })
-    // .then(response => response.json())
     .then(response => {
       console.log(response)
       //console.log(response.data.token)
       //로그인 성공시 토큰 로컬스토리지에 저장
-      // let userInfo = response.config.data
-      // userInfo = JSON.parse(userInfo);
-      localStorage.setItem('token', response.data.token);
-    })
+      let token = response.data.token;
+      console.log(token)
+      let decoded = jwt_decode(token);
+      console.log(decoded);
+      localStorage.setItem('nickname', decoded.nickname);
+      localStorage.setItem('profileImgUrl', decoded.profileImgUrl);
+      //localStorage.setItem('token', response.data.token);
+      dispatch(getUserInfoAPI({
+        nickname : nickname,
+        password : pw,
+      }))
+      // dispatch(setUser
+      //   ({ nickname : nickname,
+      //       password : pw,}))
+    history.push('/');
+  })
     .catch((err) => {
       console.log(err);
       alert('로그인실패!')
     })
-
-    dispatch(setUser({
-      nickname : nickname,
-      password : pw,
-    })
-  );
-    history.push('/');
   }
 };
 
 
-const getUserInfo = () => {
+//해당유저의 정보 가져오기 : Story의 유저정보
+const getUserInfoAPI = (nickname) => {
   return function (dispatch, getState, { history }) {
-    axios.get('/api/user')
-          .then((res) => {
-          console.log('getUserInfo', res);
-      dispatch(
-        setUser({
-          email: res.data.email,
-          nickname: res.data.nickname, 
-        })
-      );
-    
-    });
-  };
-};
+    const API = `http://13.125.167.83/story/${nickname}`;
+    axios
+      .get(API)
+      .then((res) => {
+        console.log(res.data);
+        let doc = res.data.account;
+        console.log(doc);
 
+        // let user_info = [];
+          let user = {
+            nickname : doc.nickname,
+            bio : doc.bio,
+            profileImgUrl: doc.profileImgUrl,
+            githubUrl: doc.githubUrl, 
+        }
+          console.log(user);
+          dispatch(setUser(user));
+      })
+      .catch((err) => {
+        console.error("게시물을 가져오는데 문제가 있습니다", err);
+      });
+    };
+  };
 
 //로그인 상태 유지 체크
 // const loginCheck = () => {
 //   return function (dispatch, getState, { history }) {
 //     //const token = "token_ken";
-//     const token = localStorage.getItem('token');
-//     console.log(token);
-//     if (token) {
+//     //const token = localStorage.getItem('token');
+//     // const userInfo = localStorage.getItem('userInfo');
+//     //JSON.stringfy{ } 객체를 json화 : 저장할때!
+//     //JSON.parse{ } json을 객체화 : 꺼내쓸때!! 꺼내서 setUser할거니까
+//     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+//     console.log('유저인포!!', userInfo)
+//     if (token && userInfo){
 //       dispatch(
 //         setUser({
-//           nickname: 'nickname',
-//           profileImg : '',
+//           nickname: userInfo.nickname,
 //         })
 //       );
 //     } else {
@@ -135,7 +155,9 @@ const getUserInfo = () => {
 
 const logoutCheck = () => {
   return function (dispatch, getState, { history }) {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
+    // localStorage.removeItem("nickname");
+    // localStorage.removeItem("profileImgUrl");
     dispatch(logOut());
     history.replace('/');
   };
@@ -164,13 +186,15 @@ export default handleActions(
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
         localStorage.removeItem('token');
+        localStorage.removeItem("nickname");
+        localStorage.removeItem("profileImgUrl");
         draft.user = null;
         draft.is_login = false;
       }),
-      [LOGIN_CHECK]: (state, action) =>
-      produce(state, (draft) => {
-        draft.is_login = action.payload.token;
-      })
+      // [LOGIN_CHECK]: (state, action) =>
+      // produce(state, (draft) => {
+      //   draft.is_login = action.payload.token;
+      // })
   },
   initialState
 );
@@ -181,9 +205,9 @@ const actionCreators = {
   getUser,
   signupAPI,
   loginAPI,
-  loginCheck,
+  // loginCheck,
   logoutCheck,
-  // getUserInfo
+  getUserInfoAPI,
 };
 
 export { actionCreators };
