@@ -19,14 +19,13 @@ import { actionCreators } from '../redux/modules/user';
 
 
 function App() {
-  
   const dispatch = useDispatch();
   const local_token = localStorage.getItem("token") ? true : false;
 
-  //제일 처음에 렌더링 될때 
+  //제일 처음에 렌더링 될때마다 로컬에서 토큰으로 로그인을 체크(is_login를 true로)해라
   useEffect(() => {
     if(local_token){
-      dispatch(actionCreators.getUserInfoAPI(local_token));
+      dispatch(actionCreators.loginCheck(local_token));
     }
   },[])
 

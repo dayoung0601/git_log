@@ -1,110 +1,127 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import  {BsPlusCircleFill as EditImgBtn}  from 'react-icons/bs'
+import {Grid, Text, Button, Input} from '../elements/index';
+import {actionCreators} from '../redux/modules/user';
 
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { actionCreators } from "../redux/modules/user";
-import { history } from "../redux/configureStore";
+import {nickNameCheck, pwMatch, pwContinuous, emailCheck} from '../shared/common';
 
-const UserStory = (props) => {
-    const dispatch = useDispatch('')
-    const user_info = useSelector((state) => state.user.user);
-    console.log(user_info);
+import {history} from '../redux/configureStore';
+import { useDispatch, useSelector } from 'react-redux';
 
-    // //제일 처음에 렌더링 될때 
+const Login = () => {
+    const dispatch = useDispatch();
     
+    //input에서 받아오는 입력값
+    const [nickname, setNickname] = React.useState('');
+    const [pw, setPw] = React.useState('');
+
+    //그 값들을 받아서 로그인을 클릭했을때 middleware가 api요청
+    //받아온 입력값 형식 체크 후 loginAPI요청
+    const onLogin = () => {
+        
+        if(nickname === " " || pw === " " ){
+            window.alert("닉네임과 비밀번호를 입력해주세요!");
+            return
+        }
+        
+        console.log(nickname, pw);
+        //dispatch(actionCreators.loginCheck());
+        dispatch(actionCreators.loginAPI(nickname,pw));
+        //history.push('/');
+
+    }
+
+
     return (
         <React.Fragment>
-                <ProfileImgBox>
-                    <ProfileImg>
-                        {/* src={user_info.profileImgUrl} */}
-
-                        </ProfileImg>
-                    <EditImg><EditImgBtn/></EditImg>
-                </ProfileImgBox>
-                <ProfileUserInfo>
-                    <UserName>user_info.nickname</UserName>
-                    <UserGithub>user_info.githubUrl</UserGithub>
-                    <UserIntro>user_info.bio</UserIntro>    
-                </ProfileUserInfo>
+            <SignupWrap>
+            <SignupHeader>
+            <Grid is_flex>
+                    <Title>Login</Title>
+                </Grid>
+            </SignupHeader>
+            <SignupBody>
+            <Grid is_flex width="100%" margin="5px 0">
+                <Input 
+                        placeholder="Nickname"
+                        type="text" 
+                        width="85%" 
+                        margin="5px 20px 5px 20px"
+                        padding="12px"
+                        _onChange={(e) => {
+                            setNickname(e.target.value)
+                        }}
+                        />
+                </Grid>
+                <Grid is_flex margin="5px 0">
+                <Input 
+                        type="text" 
+                        width="85%" 
+                        margin="5px 20px 5px 20px"
+                        padding="12px"
+                        placeholder="Password"
+                        alt="비밀번호"
+                        _onChange={(e) => {
+                            setPw(e.target.value)
+                        }}
+                        />
+                </Grid> 
+            </SignupBody>
+            <SignupBtns>
+            <Button width="40%" margin="10px 0" alt="로그인" 
+                radius="8px" size="1.2vw" color="white"
+                _onClick={onLogin}
+                >Login</Button>
+            <Button 
+                width="40%" margin="10px 0" alt="회원가입" 
+                radius="8px" size="1.2vw"   bg="#ffffff" color="#24292e"
+                _onClick={() => {
+                    history.push('/signup');
+                }}
+                >SignUp</Button>
+            </SignupBtns>
+            </SignupWrap>
         </React.Fragment>
     );
 };
 
-UserStory.defaultProps = {
-    user_info: {
-        profile:"https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
-        nickname: "g0garen",
-        github_address:"http://github/com/g0garden",
-        Introduction:"자기소개",
-    },
-}
 
-const ProfileImgBox = styled.div`
-    position: relative;
+const SignupWrap = styled.div`
+    width: 25%;
+    margin: 8% auto;
+    padding: 8px;
+    border: 1px solid #24292e ;
+    border-radius: 8px;
+    /* background-color:#f6f8fa; */
+`;
+
+
+const SignupHeader = styled.div`
+
+
+`;
+
+const Title = styled.div`
+    margin: 50px auto 50px auto;
+    font-size: 2.2vw;
+    font-weight:600;
+    text-align: center;
+
+`;
+
+const SignupBody = styled.div`
+
+`;
+
+
+const SignupBtns = styled.div`
+    display: flex;
+    justify-content: space-evenly;
     width:100%;
-    /* border-bottom:1px solid grey; */
-    margin: 4px auto;
+    margin: 20px -4px;
 
 `;
 
-const ProfileImg = styled.div`
-    position: relative;
-    top: 10px;
-    width: 7.2vw;
-    aspect-ratio: 1/1;
-    border-radius: 100px;
-    background-image:url("https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"); 
-    /* url("${(props) => props.src}"); */
-    margin: 45px auto;
-    cursor:pointer;
-`;
 
-
-const EditImg = styled.div`
-    position: absolute;
-    margin: 20px auto;
-    top: 70px;
-    left: 52%;
-    font-size: 20px;
-    width: 20px;
-    aspect-ratio: 1/1;
-    border-radius: 100px;
-    cursor:pointer;
-`;
-
-const ProfileUserInfo = styled.div`
-    width:100%;
-    /* border: 1px solid red; */
-    margin: 4px auto;
-`;
-
-
-const UserName = styled.div`
-    width:45%;
-    margin:4px auto;
-    padding: 4px;
-    text-align:center;
-    /* border: 1px solid grey; */
-`;
-
-const UserGithub = styled.div`
-    width:45%;
-    margin:4px auto;
-    padding: 4px;
-    text-align:center;
-`;
-
-const UserIntro = styled.div`
-    width:45%;
-    margin:4px auto;
-    padding: 4px;
-    text-align:center;
-`;
-
-
-
-
-export default UserStory;
+export default Login;
