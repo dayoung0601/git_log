@@ -61,7 +61,6 @@ const loginAPI = (nickname, pw) => {
   return function (dispatch, getState, {history}){
     //console.log(nickname, pw)
     const API = 'http://13.125.167.83/api/login';
-    
     axios.post(API, 
       {
         nickname : nickname,
@@ -79,12 +78,12 @@ const loginAPI = (nickname, pw) => {
       //console.log(response.data.token)
       //로그인 성공시 토큰 로컬스토리지에 저장
       let token = response.data.token;
-      console.log(token)
+      console.log(token);
       let decoded = jwt_decode(token);
-      console.log(decoded);
+      console.log(decoded.nickname);
       localStorage.setItem('nickname', decoded.nickname);
       localStorage.setItem('profileImgUrl', decoded.profileImgUrl);
-      //localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data.token);
       dispatch(getUserInfoAPI({
         nickname : nickname,
         password : pw,
