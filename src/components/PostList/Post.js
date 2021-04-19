@@ -34,14 +34,14 @@ const Post = React.memo((props) => {
               <Text bold margin="0px" size="1vw">
                 {props.writerNickname}
               </Text>
-            {props.is_me && (
-            <Grid>
+            {props.is_me && ( 
+            <Grid flex>
             <IconBtn 
               margin="0px 0px 0px 40px"
                onClick={(e) => {
                  e.preventDefault();
                  e.stopPropagation();
-                 history.push(`/write/${props.id}`)
+                 history.push(`/write/${props.post_id}`)
                }}
               ><BiHighlight size="12px" margin="auto" color="grey"/>
               </IconBtn >
@@ -49,12 +49,14 @@ const Post = React.memo((props) => {
                onClick={(e) => {
                  e.preventDefault();
                  e.stopPropagation();
-                 dispatch(postActions.deletePostAPI(props.id));
+                 console.log(props.post_id);
+                 dispatch(postActions.deletePostAPI(props.post_id));
+                 window.location.reload();
                }}
                ><BiTrashAlt size="12px" margin="auto" color="grey"/>
                </IconBtn >
             </Grid>
-            )}
+           )}
             </Grid> 
             
           </Body1Writer>

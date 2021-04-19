@@ -38,6 +38,8 @@ const PostWrite = (props) => {
   console.log(_post);
 
   React.useEffect(() => {
+
+    console.log(is_edit);
     // 수정모드 인데, 게시글 정보가 없을 경우
     if (is_edit && !_post){
       console.log("포스트 정보 없음");

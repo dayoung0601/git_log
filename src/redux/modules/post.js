@@ -32,27 +32,30 @@ const initialPost = {
   createdAt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
-const axiosInstance = axios.create({
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+const instance = axios.create({
+  baseURL: "http://13.125.167.83/"
+})
+// instance.defaults.headers.common['Autorization'] = AUTH_TOKEN;
+  // headers: {
+  //   "Content-Type": "application/json",
+  //   "Authorization" : localStorage.getItem("token"),
+  // },
+
 
 const getPostAPI = (post) => {
   return function (dispatch, getState, { history }) {
-    const API = "http://13.125.167.83/api/posts?page=0&size=10";
+    const API = `http://13.125.167.83/api/posts?page=0&size=10`;
     axios
       .get(API)
       .then((res) => {
-        // console.log(res.data.content);
-        // console.log(res.data.pageable);
+        console.log(res)
+        localStorage.setItem('token', res.data.token);
         let docs = res.data.content;
-
         let post_list = [];
 
         docs.forEach((doc) => {
           let post = {
-            id: doc.id,
+            post_id: doc.id,
             content: doc.content,
             imgUrl: doc.imgUrl,
             writerNickname: doc.createdBy,
@@ -65,7 +68,6 @@ const getPostAPI = (post) => {
           };
           post_list.push(post);
         });
-
         dispatch(setPost(post_list));
       })
       .catch((err) => {
@@ -144,8 +146,17 @@ const editPostAPI = (post_id, post) => {
 // 게시물 삭제하기
 const deletePostAPI = (post_id) => {
   return function (dispatch, getState, { history }) {
-    axios.delete(`http://13.125.167.83/api/posts/${post_id}`)
+    const API = `http://13.125.167.83/api/posts/${post_id}`
+    axios({
+      method: "delete",
+      // headers :{
+      //   "Authorization" : localStorage.getItem("token"),
+      // },
+      url: API,
+      data: post_id
+    })
     .then((res) => {
+      console.log(res);
       dispatch(deletePost(post_id));
       history.replace("/");
     }).catch((err) => {
