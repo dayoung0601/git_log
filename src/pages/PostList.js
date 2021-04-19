@@ -19,8 +19,7 @@ const PostList = (props) => {
 
     // 본인만 게시글 수정 기능 만들 때 사용
 
-    // console.log(post_list);
-   
+
 
     React.useEffect(() => {
             dispatch(postActions.getPostAPI());
@@ -29,12 +28,14 @@ const PostList = (props) => {
     return (
         <React.Fragment>
             {post_list.map((p, idx) => {
+
                 // 옵셔널 체이닝: 유저가 null 일때를 위하여
                if (p.writerNickname === user_info?.nickname){
                 return <Post key={p.id} {...p} is_me/>
                } else {
                 return <Post key={p.id} {...p}/>
                }
+
             })}
     
             { is_login && <WriteBtn

@@ -9,6 +9,9 @@ import Header from "../components/Header";
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import PostList from '../pages/PostList';
+
+import Story from '../pages/Story';
+
 import PostWrite from '../pages/PostWrite';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,6 +35,7 @@ function App() {
   return (
     <React.Fragment>
       <Background>
+
         <Responsive>
           <Header />
           <ConnectedRouter history={history}>
@@ -40,6 +44,7 @@ function App() {
             <Route path="/" exact component={PostList} />
             <Route path="/write" exact component={PostWrite} />
             <Route path="/write/:id" exact component={PostWrite} />
+            <Route path="/story" component={Story} />
           </ConnectedRouter>
         
         </Responsive>
