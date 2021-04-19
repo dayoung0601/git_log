@@ -5,35 +5,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as imageActions } from "../redux/modules/image";
 import axios from "axios";
 
+import preview_empty from "../static/preview_empty.png";
+
+
 const Upload = (props) => {
+  const dispatch = useDispatch();
+  const is_uploading = useSelector((state) => state.image.is_uploading);
 
-    const fileInput = React.useRef();
-
-    const selectFile = (e) => {
-        console.log(e.target.files);
-        console.log(e.target.files[0]);
-        console.log(fileInput.current.files[0]);
-    };
-
-    const uploadAPI = () => {
-        let image = fileInput.current?.files[0];
-        
-        axios
-        .post("", {
-            image: fileInput,
-        }).then((res) => {
-
-        });
+  const imageRef = React.useRef(null);
+  const selectFile = (e) => {
+    // changed 된 event (e.target은 input)
+    // console.log(e.target.files); // input 이 가진 files 객체
+    // console.log(e.target.files[0]); //선택한 파일이 어떻게 저장되어 있나 확인
+    const image = imageRef.target.files[0];
+    if (image === undefined){
+      dispatch(imageActions.setPreview("preview_empty.png"))
+      return
     }
-    
-    return (
-        <React.Fragment>
-            <input type="file" 
-            ref={fileInput} 
-            onChange={selectFile} />
-            <Button _onClick={uploadAPI}>업로드하기</Button>
-        </React.Fragment>
-    );
-}
+
+  };
+
+  return (
+    <React.Fragment>
+      <Button>
+        <input 
+        type="file" 
+        ref={imageRef} 
+        style= {{ display: 'none' }}
+        onChange={selectFile}
+        disabled={is_uploading} 
+        />
+        이미지 업로드
+      </Button>
+    </React.Fragment>
+  );
+};
 
 export default Upload;

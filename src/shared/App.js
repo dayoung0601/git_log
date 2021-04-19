@@ -23,13 +23,11 @@ function App() {
   const dispatch = useDispatch();
   const local_token = localStorage.getItem("token") ? true : false;
 
-
   //제일 처음에 렌더링 될때 
   useEffect(() => {
     if(local_token){
       dispatch(actionCreators.getUserInfoAPI(local_token));
     }
-
   },[])
 
   return (
@@ -69,5 +67,7 @@ const Responsive = styled.div`
   width: 60vw;
   margin: auto;
 `;
+
+
 
 export default App;

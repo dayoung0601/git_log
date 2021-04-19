@@ -186,6 +186,7 @@ const Preview = styled.img`
   overflow: hidden;
   object-fit:cover;
   background-image: url("${(props) => props.src}");
+
 `;
 
 const ContentInput = styled.textarea`

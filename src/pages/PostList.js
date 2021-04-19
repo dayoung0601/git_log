@@ -32,12 +32,12 @@ const PostList = (props) => {
                 // console.log(p.writerNickname);
                 // console.log(user_info?.nickname);
                 // 옵셔널 체이닝: 유저가 null 일때를 위하여
-               if (p.writerNickname === user_info?.nickname){
-                return <Post key={p.id} {...p} is_me/>
-               } else {
-                return <Post key={p.id} {...p}/>
+                if (p.writerNickname === user_info?.nickname){
+                return <Post key={p.post_id} {...p} is_me/>
+                } else {
+                return <Post key={p.post_id} {...p}/>
                 
-               }
+                }
             })}
     
             { is_login && <WriteBtn
