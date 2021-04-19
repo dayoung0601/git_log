@@ -9,14 +9,14 @@ import jwt_decode from 'jwt-decode';
 const LOG_OUT = 'LOG_OUT';
 const GET_USER = 'GET_USER';
 const SET_USER = 'SET_USER';
-//const LOGIN_CHECK = 'LOGIN_CHECK';
+const LOGIN_CHECK = 'LOGIN_CHECK';
 
 // actionCreators: createAction
 // const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const getUser = createAction(GET_USER, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
-//const loginCheck = createAction(LOGIN_CHECK, (token) => ({ token }));
+const loginCheck = createAction(LOGIN_CHECK, (token) => ({ token }));
 
 
 // initial State
@@ -73,24 +73,16 @@ const loginAPI = (nickname, pw) => {
       },
       withCredentials: true//cors관련 
     })
-    .then(response => {
-      console.log(response)
-      //console.log(response.data.token)
-      //로그인 성공시 토큰 로컬스토리지에 저장
-      let token = response.data.token;
-      console.log(token);
-      let decoded = jwt_decode(token);
-      console.log(decoded.nickname);
+    .then((response) => {
+      
+      localStorage.setItem('token', response.data.token);
+      let decoded = jwt_decode(response.data.token);
       localStorage.setItem('nickname', decoded.nickname);
       localStorage.setItem('profileImgUrl', decoded.profileImgUrl);
-      localStorage.setItem('token', response.data.token);
-      dispatch(getUserInfoAPI({
-        nickname : nickname,
-        password : pw,
-      }))
-      // dispatch(setUser
-      //   ({ nickname : nickname,
-      //       password : pw,}))
+      
+      dispatch(setUser
+        ({ nickname : nickname,
+          }))
     history.push('/');
   })
     .catch((err) => {
@@ -131,22 +123,17 @@ const getUserInfoAPI = (nickname) => {
 //로그인 상태 유지 체크
 // const loginCheck = () => {
 //   return function (dispatch, getState, { history }) {
-//     //const token = "token_ken";
-//     //const token = localStorage.getItem('token');
-//     // const userInfo = localStorage.getItem('userInfo');
-//     //JSON.stringfy{ } 객체를 json화 : 저장할때!
-//     //JSON.parse{ } json을 객체화 : 꺼내쓸때!! 꺼내서 setUser할거니까
-//     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-//     console.log('유저인포!!', userInfo)
-//     if (token && userInfo){
+//     const nickName = JSON.parse(localStorage.getItem('nickname'))
+//     console.log('유저인포!!', nickName)
+//     if (token && nickName){
 //       dispatch(
 //         setUser({
-//           nickname: userInfo.nickname,
+//           nickname: nickname,
 //         })
 //       );
 //     } else {
 //       console.log(token);
-//       // dispatch(logoutCheck());
+//       dispatch(logoutCheck());
 //     }
 //   };
 // };
@@ -154,24 +141,10 @@ const getUserInfoAPI = (nickname) => {
 
 const logoutCheck = () => {
   return function (dispatch, getState, { history }) {
-    localStorage.removeItem("token");
-    // localStorage.removeItem("nickname");
-    // localStorage.removeItem("profileImgUrl");
     dispatch(logOut());
     history.replace('/');
   };
 };
-
-// const isLogin = () => {
-//   const token = "token_ken";
-//   // const token = localStorage.getItem('token');
-
-//   if (!token) {
-//     return false;
-//   }
-//   return true;
-// };
-// console.log(isLogin);
 
 
 // reducer: handleActions(immer를 통한 불변성 유지)
@@ -207,7 +180,7 @@ const actionCreators = {
   getUser,
   signupAPI,
   loginAPI,
-  // loginCheck,
+  loginCheck,
   logoutCheck,
   getUserInfoAPI,
 };

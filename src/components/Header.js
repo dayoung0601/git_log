@@ -28,6 +28,7 @@ const Header = (props) => {
             <LogOutBtn onClick=
                         {() => {
                             dispatch(actionCreators.logOut())
+                            history.push('/');
                         }
                     }>log out</LogOutBtn>
             <ProfileImg src={props.user_info.profile}
