@@ -49,7 +49,7 @@ const getPostAPI = (post) => {
       .get(API)
       .then((res) => {
         console.log(res)
-        localStorage.setItem('token', res.data.token);
+        
         let docs = res.data.content;
         let post_list = [];
 
