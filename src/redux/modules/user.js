@@ -190,10 +190,13 @@ export default handleActions(
         draft.user = null;
         draft.is_login = false;
       }),
-      // [LOGIN_CHECK]: (state, action) =>
-      // produce(state, (draft) => {
-      //   draft.is_login = action.payload.token;
-      // })
+    [LOGIN_CHECK]: (state, action) =>
+      produce(state, (draft) => {
+        localStorage.getItem("token");
+        localStorage.getItem("nickname");
+        localStorage.getItem("profileImgUrl");
+        draft.is_login = action.payload.token;
+      }),
   },
   initialState
 );
