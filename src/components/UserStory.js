@@ -11,23 +11,21 @@ import { history } from "../redux/configureStore";
 const UserStory = (props) => {
     const dispatch = useDispatch('')
     const user_info = useSelector((state) => state.user.user);
-    console.log(user_info);
+    console.log(user_info.githubUrl);
 
     // //제일 처음에 렌더링 될때 
     
     return (
         <React.Fragment>
                 <ProfileImgBox>
-                    <ProfileImg>
-                        {/* src={user_info.profileImgUrl} */}
-
-                        </ProfileImg>
+                    <ProfileImg
+                        src={user_info.profileImgUrl}></ProfileImg>
                     <EditImg><EditImgBtn/></EditImg>
                 </ProfileImgBox>
                 <ProfileUserInfo>
-                    <UserName>user_info.nickname</UserName>
-                    <UserGithub>user_info.githubUrl</UserGithub>
-                    <UserIntro>user_info.bio</UserIntro>    
+                    <UserName>{user_info.nickname}</UserName>
+                    <UserGithub>{user_info.githubUrl}</UserGithub>
+                    <UserIntro>{user_info.bio}</UserIntro>    
                 </ProfileUserInfo>
         </React.Fragment>
     );
@@ -40,6 +38,7 @@ UserStory.defaultProps = {
         github_address:"http://github/com/g0garden",
         Introduction:"자기소개",
     },
+    
 }
 
 const ProfileImgBox = styled.div`
@@ -79,6 +78,7 @@ const ProfileUserInfo = styled.div`
     width:100%;
     /* border: 1px solid red; */
     margin: 4px auto;
+
 `;
 
 
@@ -95,6 +95,7 @@ const UserGithub = styled.div`
     margin:4px auto;
     padding: 4px;
     text-align:center;
+    
 `;
 
 const UserIntro = styled.div`
@@ -102,6 +103,7 @@ const UserIntro = styled.div`
     margin:4px auto;
     padding: 4px;
     text-align:center;
+    
 `;
 
 

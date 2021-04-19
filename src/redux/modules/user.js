@@ -76,13 +76,15 @@ const loginAPI = (nickname, pw) => {
       }),
     })
     .then((res) => {
-      let token = res.data.token;
+      var token = res.data.token;
+      var decoded = jwt_decode(token);
       console.log(token);
+      console.log(decoded.nickname);
+      console.log(decoded.profileImgUrl);
       localStorage.setItem("token", token);
-      let decoded = jwt_decode(token);
       localStorage.setItem("nickname", decoded.nickname);
       localStorage.setItem("profileImgUrl", decoded.profileImgUrl);
-      dispatch(getUserInofoAPI({
+      dispatch(getUserInfoAPI({
         nickname: nickname,
         password: pw,
       }))
@@ -95,19 +97,32 @@ const loginAPI = (nickname, pw) => {
   };
 };
 
-// const getUserInfo = () => {
-//   return function (dispatch, getState, { history }) {
-//     axios.get("/api/user").then((res) => {
-//       console.log("getUserInfo", res);
-//       dispatch(
-//         setUser({
-//           email: res.data.email,
-//           nickname: res.data.nickname,
-//         })
-//       );
-//     });
-//   };
-// };
+//해당유저의 정보 가져오기 : Story의 유저정보
+const getUserInfoAPI = (nickname) => {
+  return function (dispatch, getState, { history }) {
+    const API = `http://13.125.167.83/story/${nickname}`;
+    axios
+      .get(API)
+      .then((res) => {
+        console.log(res.data);
+        let doc = res.data.account;
+        console.log(doc);
+
+        // let user_info = [];
+          let user = {
+            nickname : doc.nickname,
+            bio : doc.bio,
+            profileImgUrl: doc.profileImgUrl,
+            githubUrl: doc.githubUrl, 
+        }
+          console.log(user);
+          dispatch(setUser(user));
+      })
+      .catch((err) => {
+        console.error("게시물을 가져오는데 문제가 있습니다", err);
+      });
+    };
+  };
 
 //로그인 상태 유지 체크
 // const loginCheck = () => {
@@ -156,6 +171,9 @@ export default handleActions(
       }),
     [LOGIN_CHECK]: (state, action) =>
       produce(state, (draft) => {
+        localStorage.getItem("token");
+        localStorage.getItem("nickname");
+        localStorage.getItem("profileImgUrl");
         draft.is_login = action.payload.token;
       }),
   },
