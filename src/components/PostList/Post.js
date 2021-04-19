@@ -34,7 +34,8 @@ const Post = React.memo((props) => {
               <Text bold margin="0px" size="1vw">
                 {props.writerNickname}
               </Text>
-            {/* {props.is_me && ()} */}
+            {props.is_me && (
+            <Grid>
             <IconBtn 
               margin="0px 0px 0px 40px"
                onClick={(e) => {
@@ -52,8 +53,10 @@ const Post = React.memo((props) => {
                }}
                ><BiTrashAlt size="12px" margin="auto" color="grey"/>
                </IconBtn >
+            </Grid>
+            )}
             </Grid> 
-              
+            
           </Body1Writer>
 
           <Body2Contents>

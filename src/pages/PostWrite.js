@@ -95,9 +95,6 @@ const PostWrite = (props) => {
     form.append("content", content);
     form.append("img", fileInput.current.files[0]);
     console.log(form);
-    for (var key of form.keys()) {
-      console.log(key);
-    }
 
     axios({
       method: "post",
@@ -107,9 +104,9 @@ const PostWrite = (props) => {
       },
       url: "http://13.125.167.83/api/posts",
       data: form,
+      
     })
       .then((res) => {
-        console.log(res);
         dispatch(postActions.addPost(form));
       })
       .catch((err) => {

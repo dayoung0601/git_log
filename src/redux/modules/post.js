@@ -8,11 +8,13 @@ import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from "react-dom";
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
+const DELETE_POST = "DELETE_POST";
 
 // actionCreators: createAction
 const setPost = createAction(SET_POST, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post_id) => ({ post_id }));
+const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }))
 
 const initialState = {
   list: [],
@@ -118,26 +120,36 @@ const editPostAPI = (post_id, post) => {
       const _post = getState().post.list[_post_idx];
       console.log(_post);
 
-      
-      // if(_image === _post.imgUrl){
-      //   axios.put(`http://13.125.167.83/api/post/${post_id}`, {
-      //     ..._edit, 
-        
-      //   ).then((res) => {
-      
-        
-      // }
+      // 바뀐 게시글
+      let _edit = {
+        content: post.content
+      }
 
-      history.push("/");
-    // });
+      // 이미지는 그대로/ 게시글만 수정할 때
+      if(_image === _post.imgUrl){
+        axios.put(`http://13.125.167.83/api/posts/${post_id}`, {
+          ..._edit, img: _image
+      }).then((res) => {
+        console.log(res);
+        dispatch(editPost(post_id, {..._edit}));
+        history.replace("/");
+      })
+      return;
+    }else{
+      //  이미지랑 글이랑 둘다 수정했을 때
+    }
   };
 };
 
 // 게시물 삭제하기
-const deletePost = (post_id) => {
+const deletePostAPI = (post_id) => {
   return function (dispatch, getState, { history }) {
-    axios.delete(`http://13.125.167.83/api/post/${post_id}`).then((res) => {
-      history.push("/");
+    axios.delete(`http://13.125.167.83/api/posts/${post_id}`)
+    .then((res) => {
+      dispatch(deletePost(post_id));
+      history.replace("/");
+    }).catch((err) => {
+      window.alert("게시물 삭제에 문제가 있어요!")
     });
   };
 };
@@ -148,7 +160,7 @@ const deletePost = (post_id) => {
 export default handleActions(
   {
     [ADD_POST]: (state, action) => produce(state, (draft) => {
-        draft.list(...action.payload.post);
+        draft.list = action.payload.post;
       }),
     [SET_POST]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.post;
@@ -160,6 +172,13 @@ export default handleActions(
         // 그 상황을 굳이 if 문으로 나눠서 쓰지 않고  spread 문법을 사용해 유지하거나 수정시에만 내용이 반영되도록 한다.
         draft.list[idx] = {...draft.list[idx], ...action.payload.post};
       }),
+      [DELETE_POST]: (state, action) => produce(state, (draft) => {
+        let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+        if (idx !== -1) {
+          // 배열에서 idx 위치의 요소 1개를 지웁니다.
+          draft.list.splice(idx, 1);
+        }
+      })
   },
   initialState
 );
@@ -169,10 +188,11 @@ const actionCreators = {
   addPost,
   setPost,
   editPost,
+  deletePost,
   getPostAPI,
   getPostByUserAPI,
   editPostAPI,
-  deletePost,
+  deletePostAPI,
 };
 
 export { actionCreators };
