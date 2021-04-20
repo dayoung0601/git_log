@@ -7,7 +7,7 @@ import moment from "moment";
 const UPLOAD_IMAGE = "UPLOAD_IMAGE";  
 const UPLOADING = "UPLOADING";    //업로드 여부
 const SET_PREVIEW = "SET_PREVIEW";
- 
+
 // actionCreators: createAction
 const uploadImage = createAction(UPLOAD_IMAGE, (image_url) => ({ image_url }));
 const uploading = createAction(UPLOADING, (uploading) => ({ uploading }));
@@ -16,7 +16,7 @@ const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
 
 const initialState ={
     image_url: "",
-    uplaoding: false,
+    is_uplaoding: false,
     preview: null,
 };
 
@@ -33,7 +33,7 @@ export default handleActions(
         }),
         [UPLOADING]: (state, action) =>
         produce(state, (draft) => {
-            draft.uploading = action.payload.uplaoding;
+            draft.is_uploading = action.payload.uplaoding;
         }),
         [SET_PREVIEW]: (state, action) =>
         produce(state, (draft) => {
