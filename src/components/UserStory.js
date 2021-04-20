@@ -13,14 +13,16 @@ const UserStory = (props) => {
     const user_info = useSelector((state) => state.user.user);
     console.log(user_info.githubUrl);
 
-    // //제일 처음에 렌더링 될때 
+    //제일 처음에 렌더링 될때 
     
     return (
         <React.Fragment>
                 <ProfileImgBox>
                     <ProfileImg
                         src={user_info.profileImgUrl}></ProfileImg>
-                    <EditImg><EditImgBtn/></EditImg>
+                    <EditImg onClick={() => 
+                    history.push("/setting")
+                    }>Edit</EditImg>
                 </ProfileImgBox>
                 <ProfileUserInfo>
                     <UserName>{user_info.nickname}</UserName>
@@ -57,21 +59,25 @@ const ProfileImg = styled.div`
     border-radius: 100px;
     background-image:url("https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"); 
     /* url("${(props) => props.src}"); */
-    margin: 45px auto;
+    margin: 30px auto 15px auto;
     cursor:pointer;
 `;
 
 
 const EditImg = styled.div`
-    position: absolute;
-    margin: 20px auto;
-    top: 70px;
-    left: 52%;
-    font-size: 20px;
-    width: 20px;
-    aspect-ratio: 1/1;
+    /* position: absolute; */
+    margin: 20px auto 30px auto;
+    /* top: 70px;
+    left: 52%; */
+    font-size: 0.7vw;
+    text-decoration:underline;
+    text-align:center;
+    width: 2.2vw;
     border-radius: 100px;
     cursor:pointer;
+    &:hover{
+        color: blue;
+    }
 `;
 
 const ProfileUserInfo = styled.div`

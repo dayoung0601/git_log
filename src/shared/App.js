@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import PostList from '../pages/PostList';
+import Setting from '../pages/Setting';
 
 import Story from '../pages/Story';
 
@@ -42,6 +43,7 @@ function App() {
             <Route path="/write" exact component={PostWrite} />
             <Route path="/write/:id" exact component={PostWrite} />
             <Route path="/story" component={Story} />
+            <Route path="/setting" component={Setting}/>
           </ConnectedRouter>
         
         </Responsive>

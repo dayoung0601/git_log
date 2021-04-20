@@ -109,6 +109,7 @@ const PostWrite = (props) => {
       
     })
       .then((res) => {
+        console.log(res)
         dispatch(postActions.addPost(form));
       })
       .catch((err) => {
@@ -170,7 +171,7 @@ const PostWrite = (props) => {
             <SubmitBtn onClick={editPost}>게시글 수정하기</SubmitBtn>
             ) : (
               <SubmitBtn onClick={addPost}>게시글 업로드</SubmitBtn>
-           )
+          )
           }
           </Grid>
         </Grid>
