@@ -14,20 +14,20 @@ import { createDispatchHook } from "react-redux";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
-  const is_login = useSelector((state) => state.user.is_login);
-
   const is_uploading = useSelector((state) => state.image.is_uploading);
   const preview = useSelector((state) => state.image.preview);
   const post_list = useSelector((state) => state.post.list);
-
   const post_id = props.match.params.id;
+  console.log(post_id);
   const is_edit = post_id ? true : false;
   // 수정하는 게시물의 정보 가져오기(리덕스에서, 새로고침시 아래 useEffect를 이용해 메인화면으로 다시 돌아가도록 세팅)
-  const {history} = props;
-  const _post = is_edit ? post_list.find((p) => p.id == post_id) : null;    //새 글 작성모드일 때는 null
+  const { history } = props;
+
+  const _post = is_edit && post_list.find((p) => p.post_id === Number(post_id));    //새 글 작성모드일 때는 null
+  console.log(post_list);
   console.log(_post);
 
-  // 게시글 내용(괄호 안은 수정할 수 있는 조건,  input 창에 value 설정해줘야 수정창에서 이전에 썼던 글이 남아있음)
+  // 게시글 내용(괄호 안은 수정할 수 있는 조건(input 창에 value 설정해줘야 수정창에서 이전에 썼던 글이 남아있음)
   const [content, setContent] = React.useState(_post ? _post.content : "");
   const ok_submit = content ? true : false ;
 
@@ -35,11 +35,7 @@ const PostWrite = (props) => {
     setContent(e.target.value);
   };
 
-  console.log(_post);
-
   React.useEffect(() => {
-
-    console.log(is_edit);
     // 수정모드 인데, 게시글 정보가 없을 경우
     if (is_edit && !_post){
       console.log("포스트 정보 없음");
@@ -70,7 +66,7 @@ const PostWrite = (props) => {
 
     // 이미지 미리보기
     const reader = new FileReader();
-    const img = fileInput.current.files[0];
+    var img = fileInput.current.files[0];
     if (img === undefined) {
       dispatch(
         imageActions.setPreview(
@@ -93,28 +89,13 @@ const PostWrite = (props) => {
       return;
     }
 
+    // console.log(content);
+    // console.log(fileInput.current.files[0]);
     const form = new FormData();
     form.append("content", content);
     form.append("img", fileInput.current.files[0]);
     console.log(form);
-
-    axios({
-      method: "post",
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "Authorization" : localStorage.getItem("token"),
-      },
-      url: "http://13.125.167.83/api/posts",
-      data: form,
-      
-    })
-      .then((res) => {
-        dispatch(postActions.addPost(form));
-      })
-      .catch((err) => {
-        console.log("formData실패", err);
-      });
-    history.push("/");
+    dispatch(postActions.addPostAPI(form));
     window.location.reload();
   };
 
@@ -125,12 +106,11 @@ const PostWrite = (props) => {
       window.alert("빈칸을 채워주세요...g")
       return;
     }
-    let post = {
-      content: content,
-      img:  fileInput.current.files[0],
-    }
-    console.log(post_id)
-    dispatch(postActions.editPostAPI(post_id, post))
+    console.log(post_id);
+
+
+    const img = fileInput.current.files[0];
+    dispatch(postActions.editPostAPI(post_id, content, img));
   }
 
 

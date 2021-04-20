@@ -30,20 +30,23 @@ const Post = React.memo((props) => {
         <PostBody2>
           <Body1Writer>
             <Grid flex>
+            <Grid flex>
               <ProfileImg src={props.writerProfile} />
-              <Text bold margin="0px" size="1vw">
+              <Text bold margin="0px" size="0.9vw">
                 {props.writerNickname}
               </Text>
+              </Grid>
             {props.is_me && ( 
-            <Grid flex>
+            <div style={{display:"flex", float:"right"}}>
             <IconBtn 
               margin="0px 0px 0px 40px"
                onClick={(e) => {
                  e.preventDefault();
                  e.stopPropagation();
+                 console.log(props.post_id);
                  history.push(`/write/${props.post_id}`)
                }}
-              ><BiHighlight size="12px" margin="auto" color="grey"/>
+              ><BiHighlight size="15px" margin="auto" color="grey"/>
               </IconBtn >
               <IconBtn   
                onClick={(e) => {
@@ -53,36 +56,35 @@ const Post = React.memo((props) => {
                  dispatch(postActions.deletePostAPI(props.post_id));
                  window.location.reload();
                }}
-               ><BiTrashAlt size="12px" margin="auto" color="grey"/>
+               ><BiTrashAlt size="15px" margin="auto" color="grey"/>
                </IconBtn >
-            </Grid>
+            </div>
            )}
             </Grid> 
             
           </Body1Writer>
 
           <Body2Contents>
-            <Text size="1vw" margin="0px">{props.content}</Text>
+            <Text size="0.9vw" margin="0px">{props.content}</Text>
             <Text size="0.5vw" color="grey" margin="1px">
               {props.createdAt}
             </Text>
           </Body2Contents>
 
           <Body3CommentList>
-
               <CommentItem />
-          
           </Body3CommentList>
 
           <Body4Count>
-            <BiHeart size="13px"/>
-            <Text blod size="1vw" margin="0px 5px 0px 2px">
+          <BiHeart size="13px"/>
+            <Text blod size="0.9vw" margin="0px 5px 0px 2px">
               {props.heartCnt}
             </Text>
             <BiMessage size="12px"/>
-            <Text blod size="1vw" margin="0px 5px 0px 2px">
+            <Text blod size="0.9vw" margin="0px 5px 0px 2px">
               {props.commentCnt}
             </Text>
+            {/* <Count /> */}
           </Body4Count>
 
           <Body5CommentWrite>
@@ -120,7 +122,7 @@ const PostBody1 = styled.img`
 `;
 
 const PostBody2 = styled.div`
-  width: 40%;
+  width: 50%;
   box-sizing: border-box;
   border-left: 1.5px solid #eee;
 `;
@@ -171,7 +173,7 @@ const Body5CommentWrite = styled.div`
 `;
 
 const ProfileImg = styled.img`
-  width: 10%;
+  width: 9%;
   aspect-ratio: 1/1;
   border-radius: 100px;
   background-image: url("${(props) => props.src}");
@@ -179,21 +181,22 @@ const ProfileImg = styled.img`
 `;
 
 const IconBtn = styled.div`
-  align: right;
+  float: right;
   margin:5px;
   align-content: center;
   display:flex;
-  size:1vw;
+  size:1.5vw;
   &:hover{
         color: #eee;
         cursor: pointer;
+  }
 `;
 
 const CommentInput = styled.input`
   outline: none;
   border: none;
-  width: 70%;
-  font-size: 1vw;
+  width: 75%;
+  font-size: 0.9vw;
 `;
 
 const CommentBtn = styled.button`
@@ -201,7 +204,7 @@ const CommentBtn = styled.button`
   outline: none;
   border: none;
   color: grey;
-  font-size: 1vw;
+  font-size: 0.9vw;
 `;
 
 export default Post;

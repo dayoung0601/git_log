@@ -10,10 +10,10 @@ const CommentItem = (props) => {
         <div flex-direction="column">
         <Grid flex>
           <ProfileImg src={props.user_info.profile} />
-          <Text bold size="1vw">{props.user_info.nickname}</Text>
+          <Text bold size="0.9vw">{props.user_info.nickname}</Text>
         </Grid>
         <Grid>
-        <Text size="1vw" margin="0px" >{props.comment}</Text>
+        <Text size="0.9vw" margin="0px" >{props.comment}</Text>
         </Grid>
       </div>
     </React.Fragment>
@@ -30,7 +30,7 @@ CommentItem.defaultProps = {
 };
 
 const ProfileImg = styled.img`
-  width: 10%;
+  width: 9%;
   aspect-ratio: 1/1;
   border-radius:100px;
   background-image: url("${(props) => props.src}");
