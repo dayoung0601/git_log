@@ -116,7 +116,7 @@ const editPostAPI = (post_id, post) => {
       console.log("게시물 정보가 없어요!");
       return;
     }
-     
+
     // 기존에 있던 프리뷰를 불러와서
       const _image = getState().image.preview;
       const _post_idx = getState().post.list.findIndex(p => p.id === post_id);

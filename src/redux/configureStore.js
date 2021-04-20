@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   user: User,
   post: Post,
   image: Image,
-  
+  // comment: comment,
   router: connectRouter(history),
 });
 
