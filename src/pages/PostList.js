@@ -5,6 +5,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 
 import Post from "../components/PostList/Post"
@@ -14,9 +15,7 @@ const PostList = (props) => {
     const dispatch = useDispatch();
     const is_login = useSelector((state) => state.user.is_login);
     const post_list = useSelector((state) => state.post.list);
-    const user_info = useSelector((state) => state.user.user);
-    // console.log(user_info);
-
+    const me = localStorage.getItem('nickname');
 
     React.useEffect(() => {
             dispatch(postActions.getPostAPI());
@@ -25,11 +24,8 @@ const PostList = (props) => {
     return (
         <React.Fragment>
             {post_list.map((p, idx) => {
-                // console.log("is_me 확인");
-                // console.log(p.writerNickname);
-                // console.log(user_info?.nickname);
                 // 옵셔널 체이닝: 유저가 null 일때를 위하여
-               if (p.writerNickname === user_info?.nickname){
+               if (p.writerNickname === me){
                 return <Post key={p.post_id} {...p} is_me/>
                } else {
                 return <Post key={p.post_id} {...p}/>
@@ -47,10 +43,10 @@ const WriteBtn = styled.button`
 width: 5%; 
 aspect-ratio: 1/1;
 border-radius: 40%;
-background-color: grey;
+background-color: #0d2636;
 position: fixed;
-top: 90px;
-right: 110px;
+top: 130px;
+right: 150px;
 border: none;
 focus{outline:none};
 font-size:1rem;
