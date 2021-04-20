@@ -80,7 +80,9 @@ const loginAPI = (nickname, pw) => {
       localStorage.setItem('nickname', decoded.nickname);
       localStorage.setItem('profileImgUrl', decoded.profileImgUrl);
       
-      dispatch(setUser({ nickname : nickname, }))
+      dispatch(setUser
+        ({ nickname : nickname,
+          }))
     history.push('/');
   })
     .catch((err) => {

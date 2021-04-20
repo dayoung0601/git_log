@@ -2,28 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { Text } from "../../elements";
 
-import { useSelector } from "react-redux";
-
 import heart from "../../static/heart.svg";
 import comment from "../../static/comment.svg";
-import { BiHeart } from "react-icons/bi";
-import { BiMessage } from "react-icons/bi";
 
 const Count = (props) => {
- 
-  const heartCnt = useSelector((state) => state.post.list.heartCnt);
-  const commentCnt = useSelector((state) => state.post.list.commentCnt);
-
   return (
     <React.Fragment>
-       <BiHeart size="13px"/>
-            <Text blod size="0.7vw" margin="0px 5px 0px 2px">
-              {heartCnt}
-            </Text>
-            <BiMessage size="12px" />
-            <Text blod size="0.7vw" margin="0px 5px 0px 2px">
-              {commentCnt}
-            </Text>
+      <Icon src={heart} />
+      <Text blod margin="0px 5px 0px 2px">
+        {props.like_cnt}
+      </Text>
+      <Icon src={comment} />
+      <Text blod margin="0px 5px 0px 2px">
+        {props.comment_cnt}
+      </Text>
     </React.Fragment>
   );
 };
@@ -45,19 +37,9 @@ Count.defaultProps =
   };
 
 
-const CommentInput = styled.input`
-  outline: none;
-  border: none;
-  width: 75%;
-  font-size: 0.7vw;
-`;
-
-const CommentBtn = styled.button`
-  background-color: white;
-  outline: none;
-  border: none;
-  color: grey;
-  font-size: 0.7vw;
+const Icon = styled.img`
+  margin: 0px 5px 0px 5px;
+  width: 4%;
 `;
 
 export default Count;

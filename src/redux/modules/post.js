@@ -13,7 +13,7 @@ const DELETE_POST = "DELETE_POST";
 // actionCreators: createAction
 const setPost = createAction(SET_POST, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const editPost = createAction(EDIT_POST, (post_id, post) => ({ post_id, post }));
+const editPost = createAction(EDIT_POST, (post_id) => ({ post_id }));
 const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }))
 
 const initialState = {
@@ -32,6 +32,15 @@ const initialPost = {
   createdAt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
+const instance = axios.create({
+  baseURL: "http://13.125.167.83/"
+})
+// instance.defaults.headers.common['Autorization'] = AUTH_TOKEN;
+  // headers: {
+  //   "Content-Type": "application/json",
+  //   "Authorization" : localStorage.getItem("token"),
+  // },
+
 
 const getPostAPI = (post) => {
   return function (dispatch, getState, { history }) {
@@ -39,7 +48,8 @@ const getPostAPI = (post) => {
     axios
       .get(API)
       .then((res) => {
-        // console.log(res)
+        console.log(res)
+        
         let docs = res.data.content;
         let post_list = [];
 
@@ -58,6 +68,7 @@ const getPostAPI = (post) => {
           };
           post_list.push(post);
         });
+
         dispatch(setPost(post_list));
       })
       .catch((err) => {
@@ -76,122 +87,74 @@ const getPostByUserAPI = (userId) => {
 };
 
 // 게시물 등록하기
-const addPostAPI = (form) => {
-  return function (dispatch, getState, { history }) {    
-    console.log("확인", form.get("content"), form.get("img"));
-    axios({
-      method: "post",
-      url: "http://13.125.167.83/api/posts",
-      data: form,
-      headers:
-        {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': localStorage.getItem("token"),
-        },
-    }).then((res) => {
-        console.log(res);
-        dispatch(addPost());
-      })
-      .catch((err) => {
-        console.error("작성 실패", err);
-      });
-      history.push("/");
-  };
-};
-
-// 게시물 수정하기
-const editPostAPI = (post_id, content, img) => {
-  return function (dispatch, getState, { history }) {
-
-    const form_edit = new FormData();
-    form_edit.append("content", content);
-    form_edit.append("img", img);
-    console.log(form_edit);
-
-    console.log(post_id);
-
-    console.log(form_edit[0],form_edit[1]);
-
-
-    axios({
-      method: "put",
-      url: `http://13.125.167.83/api/posts/${post_id}`,
-      data: form_edit,
-      headers:
-        {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': localStorage.getItem("token"),
-        },
-    }).then((res) => {
-        console.log(res);
-        let post = {
-          content: content,
-          img: img,
-        }
-        dispatch(editPost(post_id, post));
-      })
-      .catch((err) => {
-        console.error("작성 실패", err);
-      });
-      history.push("/");
-  };
-};
-  
-
-// const editPostAPI = (post_id, form) => {
+// const addPostAPI = (form) => {
 //   return function (dispatch, getState, { history }) {
-    
-//     if(!post_id){
-//       console.log("게시물 정보가 없어요!");
-//       return;
-//     }
-
-//     console.log(form);
-
-//      form[0]("content", content);
-//      form[1]("content", );
-//     // 기존에 있던 프리뷰를 불러오고, 게시글 목록 순번을 통해 게시글 정보를 가져오기
-//       const _image = getState().image.preview;
-//       const _post_idx = getState().post.list.findIndex(p => p.id === post_id);
-//       const _post = getState().post.list[_post_idx];
-//       console.log(_post);
-
-//       // 바뀐 게시글
-//       let _edit = {
-//         content: form.content
-//       }
-
-//       // 이미지는 그대로/ 게시글만 수정할 때
-//       if(_image === _post.imgUrl){
-//         axios.put(`http://13.125.167.83/api/posts/${post_id}`, {
-//           ..._edit, img: _image
-//       },
-//       {
+//     axios
+//       .post("http://13.125.167.83/api/posts", form, {
 //         headers:
-//           {
-//             'Authorization': localStorage.getItem("token"),
-//           },
-//       }).then((res) => {
+//         {
+//           'Content-Type': 'multipart/form-data',
+//           'Authorization': localStorage.getItem("token"),
+//         },
+//       }
+//       ).then((res) => {
 //         console.log(res);
-//         dispatch(editPost(post_id, {..._edit}));
-//         history.replace("/");
+//         dispatch(addPost());
 //       })
-//       return;
-//     }else{
-     
-//     }
+//       .catch((err) => {
+//         console.error("작성 실패", err);
+//       });
+//       history.push("/");
 //   };
 // };
 
+// 게시물 수정하기
+const editPostAPI = (post_id, post) => {
+  return function (dispatch, getState, { history }) {
+    
+    if(!post_id){
+      console.log("게시물 정보가 없어요!");
+      return;
+    }
+     
+    // 기존에 있던 프리뷰를 불러와서
+      const _image = getState().image.preview;
+      const _post_idx = getState().post.list.findIndex(p => p.id === post_id);
+      const _post = getState().post.list[_post_idx];
+      console.log(_post);
+
+      // 바뀐 게시글
+      let _edit = {
+        content: post.content
+      }
+
+      // 이미지는 그대로/ 게시글만 수정할 때
+      if(_image === _post.imgUrl){
+        axios.put(`http://13.125.167.83/api/posts/${post_id}`, {
+          ..._edit, img: _image
+      }).then((res) => {
+        console.log(res);
+        dispatch(editPost(post_id, {..._edit}));
+        history.replace("/");
+      })
+      return;
+    }else{
+      //  이미지랑 글이랑 둘다 수정했을 때
+    }
+  };
+};
+
 // 게시물 삭제하기
 const deletePostAPI = (post_id) => {
-  console.log(post_id);
   return function (dispatch, getState, { history }) {
-    axios.delete(`http://13.125.167.83/api/posts/${post_id}`, {
-      headers:
-        {
-          'Authorization': localStorage.getItem("token"),
-        },
+    const API = `http://13.125.167.83/api/posts/${post_id}`
+    axios({
+      method: "delete",
+      // headers :{
+      //   "Authorization" : localStorage.getItem("token"),
+      // },
+      url: API,
+      data: post_id
     })
     .then((res) => {
       console.log(res);
@@ -209,7 +172,7 @@ const deletePostAPI = (post_id) => {
 export default handleActions(
   {
     [ADD_POST]: (state, action) => produce(state, (draft) => {
-        draft.list.push(action.payload.post);
+        draft.list = action.payload.post;
       }),
     [SET_POST]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.post;
@@ -240,7 +203,6 @@ const actionCreators = {
   deletePost,
   getPostAPI,
   getPostByUserAPI,
-  addPostAPI,
   editPostAPI,
   deletePostAPI,
 };

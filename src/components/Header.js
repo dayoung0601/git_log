@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Text, Image, Button } from '../elements';
 import {AiFillGithub} from 'react-icons/ai';
-import git_log_horizontal from "../static/git_log_horizontal.svg";
 
 import styled from 'styled-components';
 
@@ -16,17 +15,16 @@ const Header = (props) => {
     //const local_token = localStorage.getItem("token") ? true : false;
     // console.log(is_login);
     
- 
+    if(is_login){
         return (
-            <HeaderContainer>
         <Grid is_flex>
             <Logo onClick={() => {
                 history.push('/');
             }}>
-                <img src={git_log_horizontal}/>
+                <AiFillGithub/> Git_log
             </Logo>
-
-           { is_login ? (<HeaderBtns className="login">           
+            <HeaderBtns className="login">
+            
             <LogOutBtn onClick=
                         {() => {
                             dispatch(actionCreators.logOut())
@@ -43,9 +41,19 @@ const Header = (props) => {
                 radius="8px" size="0.9vw" color="white"
                 src="https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"/>
                 이미지 */}
-            </HeaderBtns>    
+            </HeaderBtns>
+        </Grid>
+        
+        
+    );} else{
+    return (
+        <Grid is_flex>
+            <Logo onClick={() => {
+                history.push('/');
+            }}>
+                <AiFillGithub/> Git_log
+            </Logo>
             
-            ) : (
             <HeaderBtns className="login">
                 <Button width="50%" margin="10px 10px 10px 0" alt="회원가입" 
                 radius="8px" size="0.9vw"  color="white"
@@ -60,11 +68,11 @@ const Header = (props) => {
                 }}
                 >Login</Button>
             </HeaderBtns>
-            )}
         </Grid>
-        </HeaderContainer>
-    )
-}
+        
+        
+    );
+};}
 
 Header.defaultProps = {
     user_info: {
@@ -72,17 +80,12 @@ Header.defaultProps = {
         "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
     },
 };
-const HeaderContainer = styled.div`
-    margin: 0px;
-    padding: 15px 40px;
-    width: 100%;
-    background-color: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px 0px;
-`;
 
 const Logo = styled.div`
-    margin: 0px;
-    width: 10%;
+    margin: 20px;
+    width: 50%;
+    font-weight: 600;
+    font-size: 1.8vw;
     cursor: pointer;
 `;
 
