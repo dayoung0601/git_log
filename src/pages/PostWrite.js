@@ -94,8 +94,8 @@ const PostWrite = (props) => {
     const form = new FormData();
     form.append("content", content);
     form.append("img", fileInput.current.files[0]);
-    console.log(form);
     dispatch(postActions.addPostAPI(form));
+
     window.location.reload();
   };
 
@@ -108,9 +108,9 @@ const PostWrite = (props) => {
     }
     console.log(post_id);
 
-
     const img = fileInput.current.files[0];
     dispatch(postActions.editPostAPI(post_id, content, img));
+    window.location.reload();
   }
 
 

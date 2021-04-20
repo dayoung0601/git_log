@@ -78,7 +78,7 @@ const getPostByUserAPI = (userId) => {
 // 게시물 등록하기
 const addPostAPI = (form) => {
   return function (dispatch, getState, { history }) {    
-    console.log("확인", form.get("content"), form.get("img"));
+    // console.log("확인", form.get("content"), form.get("img"));
     axios({
       method: "post",
       url: "http://13.125.167.83/api/posts",
@@ -99,6 +99,7 @@ const addPostAPI = (form) => {
   };
 };
 
+
 // 게시물 수정하기
 const editPostAPI = (post_id, content, img) => {
   return function (dispatch, getState, { history }) {
@@ -107,11 +108,7 @@ const editPostAPI = (post_id, content, img) => {
     form_edit.append("content", content);
     form_edit.append("img", img);
     console.log(form_edit);
-
     console.log(post_id);
-
-    console.log(form_edit[0],form_edit[1]);
-
 
     axios({
       method: "put",
@@ -209,7 +206,7 @@ const deletePostAPI = (post_id) => {
 export default handleActions(
   {
     [ADD_POST]: (state, action) => produce(state, (draft) => {
-        draft.list.push(action.payload.post);
+        draft.list=action.payload.post;
       }),
     [SET_POST]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.post;
