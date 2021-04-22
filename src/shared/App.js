@@ -40,7 +40,7 @@ function App() {
             <Route path="/" exact component={PostList} />
             <Route path="/write" exact component={PostWrite} />
             <Route path="/write/:id" exact component={PostWrite} />
-            <Route path="/story" component={Story} />
+            <Route path="/story/:id" component={Story} />
             <Route path="/setting" component={Setting}/>
           </ConnectedRouter>
         </Responsive>

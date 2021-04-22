@@ -10,19 +10,28 @@ import { history } from "../redux/configureStore";
 
 const UserStory = (props) => {
     const dispatch = useDispatch('')
+    const is_login = useSelector((state) => state.user.is_login);
     const user_info = useSelector((state) => state.user.user);
-    console.log(user_info.githubUrl);
-
-    //제일 처음에 렌더링 될때 
-    
+    const me = localStorage.getItem('nickname');
+    //console.log(user_info.githubUrl);
+    const user_is_me = user_info.nickname === me
+    console.log(user_is_me)
+    // if(user_info.nickname === me){
+    //     <EditImg onClick={() => 
+    //         history.push("/setting")
+    //         }>Edit</EditImg>
+    // }
     return (
         <React.Fragment>
                 <ProfileImgBox>
                     <ProfileImg
                         src={user_info.profileImgUrl}></ProfileImg>
-                    <EditImg onClick={() => 
-                    history.push("/setting")
-                    }>Edit</EditImg>
+                    {user_is_me &&
+                        <EditImg onClick={() => 
+                            history.push("/setting")
+                            //history.push("/setting/:{user_info.nickname}")
+                            }>Edit</EditImg>
+                    }
                 </ProfileImgBox>
                 <ProfileUserInfo>
                     <UserName>{user_info.nickname}</UserName>
@@ -57,8 +66,10 @@ const ProfileImg = styled.div`
     width: 7.2vw;
     aspect-ratio: 1/1;
     border-radius: 100px;
-    background-image:url("https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"); 
-    /* url("${(props) => props.src}"); */
+    background-image:url("${(props) => props.src}");
+    /* "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg" */
+    background-size: cover;
+    object-fit:cover;
     margin: 30px auto 15px auto;
     cursor:pointer;
 `;
