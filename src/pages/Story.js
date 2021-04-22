@@ -11,7 +11,6 @@ const Story = (props) => {
     const user_info = useSelector((state) => state.user.user);
     console.log(user_info.nickname);
     const nickname = user_info.nickname;
-    
 
     React.useEffect(() => {
         dispatch(actionCreators.getUserInfoAPI(nickname));

@@ -56,7 +56,7 @@ const Login = () => {
                 </Grid>
                 <Grid is_flex margin="5px 0">
                 <Input 
-                        type="text" 
+                        type="password" 
                         width="85%" 
                         margin="5px 20px 5px 20px"
                         padding="12px"
@@ -94,6 +94,20 @@ const SignupWrap = styled.div`
     border: 1px solid #24292e ;
     border-radius: 8px;
     /* background-color:#f6f8fa; */
+    @media only screen and (max-width:1372px){
+        width:30%;
+        margin:8% auto;
+        padding: 8px;
+        border: 1px solid #24292e ;
+        border-radius: 8px;
+    @media only screen and (max-width:872px){
+        width:50%;
+        margin:8% auto;
+        padding: 8px;
+        border: 1px solid #24292e ;
+        border-radius: 8px;
+
+    } 
 `;
 
 

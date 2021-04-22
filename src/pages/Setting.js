@@ -1,12 +1,10 @@
-//언젠가는..!
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
 
 import {Grid, Text, Image, Input, Button } from '../elements';
 import {nickNameCheck, pwMatch, pwContinuous, emailCheck, githubCheck} from '../shared/common';
 import {useSelector, useDispatch} from "react-redux";
 
-import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as imageActions } from "../redux/modules/image";
 import { actionCreators } from "../redux/modules/user";
 
@@ -14,18 +12,33 @@ import { history } from "../redux/configureStore";
 
 import axios from "axios";
 
-
 const Setting = (props) => {
     const dispatch = useDispatch();
-
-
     const is_uploading = useSelector((state) => state.image.is_uploading);
+    const user_info = useSelector((state) => state.user.user);
+    //console.log(user_info);
     const preview = useSelector((state) => state.image.preview);
+    
+    const [pw, setPw] = React.useState('');
+    const [pwConfirm, setPwConfirm] = React.useState('');
+    
+
+
+    React.useEffect(() => {
+        if(!user_info){
+            return false;
+        }
+        //이미지경로받기
+        dispatch(imageActions.setPreview(user_info.profileImgUrl));
+    },[])
+
+
+
 //이미지 업로드하기
 const fileInput = React.useRef();
 const selectImg = (e) => {
     // changed 된 event (e.target은 input)
-    console.log(e.target.files); // input 이 가진 files 객체
+    //console.log(e.target.files); // input 이 가진 files 객체
     // console.log(e.target.files[0]); //선택한 파일이 어떻게 저장되어 있나 확인
      console.log(fileInput.current.files[0]); //ref로도 확인;
     
@@ -41,17 +54,50 @@ const selectImg = (e) => {
     }
     reader.readAsDataURL(img);
     reader.onloadend = () => {
-        console.log(reader.reasult);
+        // console.log(reader.reasult);
         dispatch(imageActions.setPreview(reader.result));
+        //여기에서 editProfile가져와야하는거 아닌가.. 그래야 미리보기에 남아있는거아닌그아..?
     };
 };
 
+//비밀번호
 
 
-//이미지 등록(저장)
+//이미지 등록(수정)
+const editProfileImg = () => {
+    // if(fileInput.current.files[0])
 
-//이미지 
+    //빈칸체크, 둘이 매칭
+    if(pw === ''){
+        alert('새 비밀번호를 입력해주세요!')
+        return false;
+    }
 
+    if(pwConfirm ===''){
+        alert('새 비밀번호를 다시 한 번 입력해주세요!')
+        return false;
+    }
+
+    if(pw !== pwConfirm){
+        alert('비밀번호가 일치하지 않습니다.')
+        return false;
+    }
+
+    const form = new FormData();
+    // if(fileInput.current.files[0] === undefined){
+    //     form.append('profileImg', preview)
+    // }else{
+    //     form.append('profileImg', fileInput.current.files[0]);
+    // }
+    form.append('profileImg', fileInput.current.files[0]);
+    form.append('password', pw)
+    form.append('passwordConfirm', pwConfirm)
+    console.log(form)
+    dispatch(actionCreators.editProfileImgAPI(form))
+
+    history.push(`/story/${user_info.nickname}`)
+    
+}
 
     return (
         <React.Fragment>
@@ -73,7 +119,6 @@ const selectImg = (e) => {
                 <PostInfo>
                     <PostInfoBox>
                     <h2>프로필 수정</h2>
-                    <p>프로필 사진을 선택해주세요!</p>
                     <input
                         type='file'
                         ref={fileInput}
@@ -82,12 +127,29 @@ const selectImg = (e) => {
                         //disabled가 false일때만 업로드 가능
                         disabled={is_uploading}
                         />
-                    <ProfileEditBtn onClick={() => {
-                        console.log("저장하기!")
-                        //사진수정하기 = 
+                    <InputPW
+                        type='text'
+                        // ref={password}
+                        placeholder="Password"
+                        alt="비밀번호"
+                        onChange={(e) => {
+                            //console.log(e.target.value)
+                                setPw(e.target.value)
+                        }}/>
+                    <InputPW
+                        type="text"
+                        //ref={passwordConfirm}
+                        placeholder="PassWord Confirm"
+                        alt="비밀번호확인"
+                            onChange={(e) => {
+                            setPwConfirm(e.target.value)}}
+                        />
+                    
+                    <ProfileEditBtn onClick={
+                        //console.log("저장하기!")
                         //history.push('/story')
-                        
-                    }}>저장하기</ProfileEditBtn>
+                        editProfileImg
+                    }>수정하기</ProfileEditBtn>
                     </PostInfoBox>
                 </PostInfo>
             </SettingWrap>
@@ -95,16 +157,6 @@ const selectImg = (e) => {
         </React.Fragment>
     );
 };
-
-Setting.defaultProps = {
-    user_info: {
-        profile:
-        "https://seongbinko-naver-bucket.s3.ap-northeast-2.amazonaws.com/common/default_profile.jpg",
-    },
-    
-}
-
-export default Setting;
 
 const SettingWrap = styled.div`
     width: 100%;
@@ -118,31 +170,22 @@ const SettingWrap = styled.div`
     display: flex;
     position: relative;
     top: 50px;
+    
 
 `;
 
 const PostInfo = styled.div`
     width:100%;
+    
 `;
 
 const PostInfoBox = styled.div`
     width: 100%;
     margin: 10% auto;
     text-align:center;
-    }
-    & h2{
-        display: block;
-        margin-bottom:10px;
-    }
-    & p{
-        display:block;
-        font-size: 0.9vw;
-        color: darkgray;
-        margin-bottom:30px;
-    }
     & input{
         display:inline-block;
-        padding-left: 10px;   
+        padding-left: 10px;   }
 `;
 
 // const PostContainer = styled.div`
@@ -170,6 +213,15 @@ const Preview = styled.img`
 
 `;
 
+const InputPW = styled.input`
+    width: 65%;
+    width: 65%;
+    height: 40px;
+    padding: 12px 3px;
+    box-sizing: border-box;
+    border: 1px solid #eee;     
+    margin:4px 0;              
+`;
 
 const ProfileEditBtn = styled.button`
     display:block;
@@ -186,3 +238,5 @@ const ProfileEditBtn = styled.button`
     }
 
 `;
+
+export default Setting;

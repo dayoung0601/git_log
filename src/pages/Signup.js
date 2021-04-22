@@ -289,7 +289,7 @@ const signUp = () => {
                 <Grid is_flex margin="5px auto">
                 <Input  
                         placeholder="PassWord"
-                        type="text" 
+                        type="password" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 
                         _onClick={() => {
@@ -307,7 +307,7 @@ const signUp = () => {
                 <Grid is_flex margin="5px 0">
                 <Input 
                         placeholder="PassWord check"
-                        type="text" 
+                        type="password" 
                         width="85%" 
                         margin="5px 0px 5px 35px" 
                         _onClick={() => {
@@ -377,7 +377,7 @@ const signUp = () => {
 };
 
 const SignupWrap = styled.div`
-    width: 50%;
+    max-width: 50%;
     /* margin:-8px auto 15px auto; */
     margin: 10% auto;
     padding: 8px;
@@ -386,7 +386,7 @@ const SignupWrap = styled.div`
     /* background-color:#f6f8fa; */
     
     @media (max-width: 767px){
-
+        min-width: 50%;
     }
 
 `;
