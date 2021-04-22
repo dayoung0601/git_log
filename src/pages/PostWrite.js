@@ -103,7 +103,7 @@ const PostWrite = (props) => {
   // 게시물 수정
   const editPost = () => {
     if(!content){
-      window.alert("빈칸을 채워주세요...g")
+      window.alert("빈칸을 채워주세요...")
       return;
     }
     console.log(post_id);

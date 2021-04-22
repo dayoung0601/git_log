@@ -1,21 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 import { Grid, Image, Text, Input } from "../../elements";
+import {useSelector, useDispatch} from "react-redux";
+import {actionCreators as commentActions} from "../../redux/modules/comment";
+import {history} from "../../redux/configureStore";
 
 
 const CommentItem = (props) => {
+  console.log(props.post_id);
 
   return (
     <React.Fragment>
-        <div flex-direction="column">
+        <CommentUnit>
         <Grid flex>
           <ProfileImg src={props.user_info.profile} />
-          <Text bold size="0.9vw">{props.user_info.nickname}</Text>
+          <Text bold size="0.9vw">{props.createdBy}</Text>
         </Grid>
         <Grid>
         <Text size="0.9vw" margin="0px" >{props.comment}</Text>
         </Grid>
-      </div>
+      </CommentUnit>
     </React.Fragment>
   );
 };
@@ -24,7 +28,7 @@ CommentItem.defaultProps = {
   user_info: {
     nickname: "_nickname",
     profile:
-      "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg",
+      "https://seongbinko-naver-bucket.s3.ap-northeast-2.amazonaws.com/common/default_profile.jpg",
   },
   comment: "댓글입니다 :)",
 };
@@ -37,5 +41,9 @@ const ProfileImg = styled.img`
   margin-right: 5px;
 `;
 
+const CommentUnit = styled.div`
+  width: 100%;
+  padding: 10px;
+`;
 
 export default CommentItem;

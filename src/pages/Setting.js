@@ -40,7 +40,7 @@ const selectImg = (e) => {
         );
     }
     reader.readAsDataURL(img);
-    reader.onloadend = () => {0
+    reader.onloadend = () => {
         console.log(reader.reasult);
         dispatch(imageActions.setPreview(reader.result));
     };

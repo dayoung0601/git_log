@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as userActions } from "../redux/modules/user";
+
 import { history } from "../redux/configureStore";
 
 import Post from "../components/PostList/Post"
