@@ -6,6 +6,7 @@ import { connectRouter } from "connected-react-router";
 import User from "./modules/user";
 import Post from "./modules/post";
 import Image from "./modules/image";
+//import Setting from './modules/setting';
 
 export const history = createBrowserHistory();
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   user: User,
   post: Post,
   image: Image,
+  //setting: Setting,
   // comment: comment,
   router: connectRouter(history),
 });
@@ -23,8 +25,8 @@ const middlewares = [thunk.withExtraArgument({ history: history })];
 const env = process.env.NODE_ENV;
 
 if (env === "development") {
-  // const { logger } = require("redux-logger"); // if문 안에서만 쓰려고
-  // middlewares.push(logger);
+   const { logger } = require("redux-logger"); // if문 안에서만 쓰려고
+  middlewares.push(logger);
 }
 
 const composeEnhancers =

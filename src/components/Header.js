@@ -1,22 +1,27 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import { Grid, Text, Image, Button } from '../elements';
 import {AiFillGithub} from 'react-icons/ai';
 import git_log_horizontal from "../static/git_log_horizontal.svg";
 
-import styled from 'styled-components';
-
-import {history} from '../redux/configureStore';
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { actionCreators } from '../redux/modules/user';
+import { actionCreators } from "../redux/modules/user";
+import {history} from '../redux/configureStore';
+
 
 const Header = (props) => {
     const dispatch = useDispatch();
     //스토어에서 state값 가져오기
     const is_login = useSelector((state) => state.user.is_login); //.user모듈에서
-    //const local_token = localStorage.getItem("token") ? true : false;
-    // console.log(is_login);
+    console.log(is_login)
+    const user_info = useSelector((state) => state.user.user);
+    console.log(user_info);
+    const profileImgUrl = localStorage.getItem("profileImgUrl")
+    //console.log(profileImgUrl);
     
- 
+
         return (
             <HeaderContainer>
         <Grid is_flex>
@@ -26,25 +31,19 @@ const Header = (props) => {
                 <img src={git_log_horizontal}/>
             </Logo>
 
-           { is_login ? (<HeaderBtns className="login">           
-            <LogOutBtn onClick=
-                        {() => {
-                            dispatch(actionCreators.logOut())
-                            history.push('/');
-                        }
-                    }>log out</LogOutBtn>
-            <ProfileImg src={props.user_info.profile}
+            { is_login ? (
+            <HeaderBtns className="login">           
+            <LogOutBtn onClick={() => {
+                    dispatch(actionCreators.logOut())
+                    history.push('/');
+                }}
+                >log out</LogOutBtn>
+            <ProfileImg src={user_info.profileImgUrl}
                         onClick={() => {
-                            history.push('/story');
+                            history.push(`/story/${user_info.nickname}`);
                             //history.push('/setting');
                         }}/>
-            
-            {/* <Image width="50%" shape="circle" 
-                radius="8px" size="0.9vw" color="white"
-                src="https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg"/>
-                이미지 */}
             </HeaderBtns>    
-            
             ) : (
             <HeaderBtns className="login">
                 <Button width="50%" margin="10px 10px 10px 0" alt="회원가입" 
@@ -74,7 +73,7 @@ Header.defaultProps = {
 };
 const HeaderContainer = styled.div`
     margin: 0px;
-    padding: 15px 40px;
+    padding: 15px 20px;
     width: 100%;
     background-color: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px 0px;

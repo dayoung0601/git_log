@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+//import { get } from 'immer/dist/internal';
 // import { set } from 'immer/dist/internal';
 
 // actions
@@ -10,6 +11,7 @@ const LOG_OUT = 'LOG_OUT';
 const GET_USER = 'GET_USER';
 const SET_USER = 'SET_USER';
 const LOGIN_CHECK = 'LOGIN_CHECK';
+const EDIT_PROFILE = "EDIT_PROFILE";
 
 // actionCreators: createAction
 // const logIn = createAction(LOG_IN, (user) => ({ user }));
@@ -17,13 +19,15 @@ const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const getUser = createAction(GET_USER, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (token) => ({ token }));
+const editProfile = createAction(EDIT_PROFILE, (profile_img) => ({profile_img}));
 
 
 // initial State
 const initialState = {
-  user: null,
+  user: '', //null
   is_login: false,
   is_me:false,
+  img:'',
 };
 
 //API요청(middleware actions)
@@ -79,8 +83,12 @@ const loginAPI = (nickname, pw) => {
       let decoded = jwt_decode(response.data.token);
       localStorage.setItem('nickname', decoded.nickname);
       localStorage.setItem('profileImgUrl', decoded.profileImgUrl);
-      
-      dispatch(setUser({ nickname : nickname, }))
+      //로그인할때 받아오는 토큰에 우리가 원하는 닉네임이랑 프로필이미지있으니까, 복호화해서 로컬스토리지에 저장
+      //그러니까 로그인할때 리덕스에 닉네임이랑 디코드한 프로필이미지 저장해야 로그인 하자마자 서버에서 보내주는 이 유저의 프로필을 헤더에서 보여주지
+      dispatch(setUser(
+        { nickname : nickname,
+          profileImgUrl : decoded.profileImgUrl,
+        }))
     history.push('/');
   })
     .catch((err) => {
@@ -118,6 +126,42 @@ const getUserInfoAPI = (nickname) => {
     };
   };
 
+//회원정보 수정하기
+//editProfileImgAPI
+const editProfileImgAPI = (form) => {
+  return function(dispatch, getState, {history}){
+      //console.log('확인', form.get('img'));
+      const API = "http://13.125.167.83/api/settings"
+      axios({
+          method: "post",
+          url : API,
+          data : form,
+          headers : {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': localStorage.getItem("token"),
+          },
+          withCredentials : true
+      }).then((res) => {
+        //profileImg, nickname
+        //localStorage에 다시저장 -> 수정된이미지로 
+          localStorage.setItem('profileImgUrl', res.data.profileImgUrl)
+          
+          console.log(getState().user.user,)
+          dispatch(
+            setUser(
+            { nickname : localStorage.getItem('nickname'),
+              
+              profileImgUrl : res.data.profileImgUrl,
+            }))      
+      })
+      .catch((err) => {
+          console.log('수정 실패', err);
+      });
+      //history.push(`/story/${localStorage.getItem('nickname')}`)
+  };
+};
+
+
 
 const logoutCheck = () => {
   return function (dispatch, getState, { history }) {
@@ -135,6 +179,10 @@ export default handleActions(
         draft.user = action.payload.user;
         draft.is_login = true;
       }),
+    [EDIT_PROFILE] : (state, action) => 
+      produce(state, (draft) => {
+        draft.img = action.payload.profile_img;
+      }), 
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
         localStorage.removeItem('token');
@@ -163,6 +211,7 @@ const actionCreators = {
   loginCheck,
   logoutCheck,
   getUserInfoAPI,
+  editProfileImgAPI,
 };
 
 export { actionCreators };

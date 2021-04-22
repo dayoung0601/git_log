@@ -15,7 +15,9 @@ const PostList = (props) => {
     const dispatch = useDispatch();
     const is_login = useSelector((state) => state.user.is_login);
     const post_list = useSelector((state) => state.post.list);
+    
     const me = localStorage.getItem('nickname');
+
 
     React.useEffect(() => {
             dispatch(postActions.getPostAPI());
@@ -23,15 +25,16 @@ const PostList = (props) => {
 
     return (
         <React.Fragment>
-            {post_list.map((p, idx) => {
-                // 옵셔널 체이닝: 유저가 null 일때를 위하여
-               if (p.writerNickname === me){
-                return <Post key={p.post_id} {...p} is_me/>
-               } else {
-                return <Post key={p.post_id} {...p}/>
-               }
-            })}
-    
+            
+                {post_list.map((p, idx) => {
+                    // 옵셔널 체이닝: 유저가 null 일때를 위하여
+                    if (p.writerNickname === me){
+                    return <Post key={p.post_id} {...p} is_me/>
+                    } else {
+                    return <Post key={p.post_id} {...p}/>
+                    }
+                })}
+            
             { is_login && <WriteBtn
             onClick={() => history.push("/write")} 
             ><AiFillEdit color="#ffffff" size="60%"/></WriteBtn> }
